@@ -8,7 +8,7 @@ public class Doctor extends Person {
         super(name, national_id);
         this.diploma_id = diploma_id;
 
-        this.schedule = new Schedule( maxPatientPerDay );
+        this.schedule = new Schedule( this, maxPatientPerDay );
     }
 
     public int getDiplomaId() {

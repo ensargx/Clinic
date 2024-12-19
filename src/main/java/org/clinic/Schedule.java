@@ -10,16 +10,13 @@ public class Schedule implements Serializable {
     private int maxPatientPerDay;
     private Doctor doctor;
 
-    public Schedule(int maxPatientPerDay) {
+    public Schedule(Doctor doctor, int maxPatientPerDay) {
         this.maxPatientPerDay = maxPatientPerDay;
+        this.doctor = doctor;
     }
 
     public Doctor getDoctor() {
         return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
     }
 
     public boolean addRendezvous(Patient patient, Date desiredDate) {
