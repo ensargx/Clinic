@@ -1,3 +1,5 @@
+package org.clinic;
+
 public class DuplicateInfoException extends RuntimeException {
     /**
      * Constructs a new exception with the specified detail message.  The

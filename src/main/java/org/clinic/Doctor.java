@@ -1,3 +1,5 @@
+package org.clinic;
+
 public class Doctor extends Person {
     private final int diploma_id;
     private Schedule schedule;

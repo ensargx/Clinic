@@ -1,3 +1,5 @@
+package org.clinic;
+
 public class Main {
     private static boolean isGui;
 
