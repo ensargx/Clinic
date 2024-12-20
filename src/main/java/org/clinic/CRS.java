@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class CRS {
     private HashMap<Long, Patient> patients = new HashMap<>();
-    private LinkedList<Rendezvous> rendezvous = new LinkedList<>();
+    private LinkedList<Rendezvous> rendezvouses = new LinkedList<>();
     private HashMap<Integer, Hospital> hospitals = new HashMap<>();
 
     public boolean makeRendezvous(long patientId, int hospitalId, int sectionId, int diplomaId, Date desiredDate) throws IDException {
@@ -32,14 +32,34 @@ public class CRS {
 
         Schedule schedule = doctor.getSchedule();
 
-        boolean ret = schedule.addRendezvous( patient, desiredDate );
+        Rendezvous rendezvous = schedule.addRendezvous( patient, desiredDate );
 
-        // the Rendezvous here are copies made with parameters.
-        if ( ret ) {
-            rendezvous.add( new Rendezvous( doctor, patient, desiredDate ) );
+        if ( rendezvous != null ) {
+            rendezvouses.add( rendezvous );
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Hospital createHospital( Integer id, String name ) throws DuplicateInfoException {
+        if ( hospitals.containsKey( id ) ) {
+            throw new DuplicateInfoException("Hospital with given id exists: " + id);
         }
 
-        return ret;
+        Hospital hospital = new Hospital( id, name );
+        hospitals.put( id, hospital );
+        return hospital;
+    }
+
+    public Patient createPatient( String name, long nationalId ) throws DuplicateInfoException {
+        if (patients.containsKey( nationalId ) ) {
+            throw new DuplicateInfoException("Patient with given nationalId exist: " + nationalId);
+        }
+
+        Patient patient = new Patient( name, nationalId );
+        patients.put( nationalId, patient );
+        return patient;
     }
 
     public void saveTablesToDisk(String fullPath) {

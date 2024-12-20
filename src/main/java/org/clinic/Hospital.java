@@ -26,7 +26,7 @@ public class Hospital implements Serializable {
 
     private Section getSection(String name) {
         for( Section section : sections ) {
-            if (Objects.equals(section.getName(), name)) {
+            if ( Objects.equals( section.getName(), name ) ) {
                 return section;
             }
         }
@@ -35,13 +35,18 @@ public class Hospital implements Serializable {
     }
 
     public void addSection(Section section) throws DuplicateInfoException {
-        for( Section sec : sections ) {
-            if ( sec == section ) {
-                throw new DuplicateInfoException("The section " + section.getName() + " already exists!");
-            }
+        if ( sections.contains( section ) ) {
+            throw new DuplicateInfoException("The section '" + section.getName() + "' already exists!");
         }
 
         sections.add( section );
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

@@ -19,14 +19,16 @@ public class Schedule implements Serializable {
         return doctor;
     }
 
-    public boolean addRendezvous(Patient patient, Date desiredDate) {
+    public Rendezvous addRendezvous(Patient patient, Date desiredDate) {
         if ( !ensureDate( desiredDate ) ) {
-            return false;
+            return null;
         }
 
-        sessions.add( new Rendezvous( doctor, patient, desiredDate ) );
+        Rendezvous rendezvous = new Rendezvous( doctor, patient, desiredDate );
 
-        return true;
+        sessions.add( rendezvous );
+
+        return rendezvous;
     }
 
     // helper method to ensure date is available to create Rendezvous
