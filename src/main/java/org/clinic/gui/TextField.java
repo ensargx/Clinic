@@ -1,10 +1,14 @@
 package org.clinic.gui;
 
+import org.clinic.lang.Language;
+
 import javax.swing.*;
 import javax.swing.text.Document;
 import java.awt.*;
 
 public class TextField extends JTextField {
+    private String placeholderTr;
+
     /**
      * Constructs a new <code>JTextField</code> that uses the given text
      * storage model and the given number of columns.
@@ -73,12 +77,34 @@ public class TextField extends JTextField {
     public TextField() {
     }
 
-    public void setPlaceholder( String placeholder ) {
+    public void setPlaceholder( String placeholderTr ) {
+        this.placeholderTr = placeholderTr;
+    }
 
+    public String getPlaceholder() {
+        return placeholderTr;
     }
 
     public void clear() {
+        this.setText("");
+    }
 
+    @Override
+    protected void paintComponent(final Graphics pG) {
+        super.paintComponent( pG );
+
+        if ( placeholderTr == null || placeholderTr.isEmpty() || !getText().isEmpty() ) {
+            return;
+        }
+
+        final Graphics2D g = (Graphics2D) pG;
+        g.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(getDisabledTextColor());
+        String placeholder = Language.Get( placeholderTr );
+        g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
+                .getMaxAscent() + getInsets().top);
     }
 
     public void setFlexibleSize(int minW, int minH, int maxW, int maxH) {

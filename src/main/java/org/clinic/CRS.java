@@ -62,6 +62,10 @@ public class CRS {
         return patient;
     }
 
+    public HashMap<Integer, Hospital> getHospitals() {
+        return hospitals;
+    }
+
     public void saveTablesToDisk(String fullPath) {
 
     }

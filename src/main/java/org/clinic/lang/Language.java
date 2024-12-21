@@ -1,7 +1,6 @@
 package org.clinic.lang;
 
 import java.util.*;
-import java.util.concurrent.Callable;
 
 public class Language {
     private static HashMap<String, ArrayList<String>> languages = new HashMap<>(Map.ofEntries(

@@ -1,6 +1,7 @@
 package org.clinic.gui;
 
-import org.clinic.gui.menu.Menu;
+import org.clinic.Hospital;
+import org.clinic.gui.menu.GMenu;
 import org.clinic.gui.panels.HospitalsPanel;
 import org.clinic.gui.panels.PatientsPanel;
 import org.clinic.gui.panels.RendezvousPanel;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class GUI {
     JMenuBar menuBar;
@@ -20,12 +22,15 @@ public class GUI {
     TabPanel patientsPanel;
     TabPanel rendezvousPanel;
 
-    public GUI() {
+    IGUIListener listener;
+
+    public GUI( IGUIListener listener ) {
+        this.listener = listener;
         frame = new JFrame();
         menuBar = createMenuBar();
     }
 
-    public void render() {
+    public void render( HashMap<Integer, Hospital> hospitals ) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setSize(400, 300);
@@ -33,7 +38,7 @@ public class GUI {
 
         tabbedPane = new TabbedPane();
 
-        hospitalsPanel = new HospitalsPanel();
+        hospitalsPanel = new HospitalsPanel( listener, hospitals );
         tabbedPane.addTab( hospitalsPanel.getPanelTitle(), hospitalsPanel );
 
         patientsPanel = new PatientsPanel();
@@ -57,7 +62,7 @@ public class GUI {
         }
 
         // Create a "Language" menu
-        Menu languageMenu = new Menu("gui.menubar.language");
+        GMenu languageMenu = new GMenu("gui.menubar.language");
         for ( String lang : Language.getLanguages() ) {
             JMenuItem item = new JMenuItem( lang );
             item.addActionListener(new ActionListener() {
@@ -73,6 +78,19 @@ public class GUI {
         menuBar.add(languageMenu);
 
         return menuBar;
+    }
+
+    public static void ErrorMessage( String error ) {
+        JOptionPane.showOptionDialog(
+                null,
+                error,
+                Language.Get("gui.error"),
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.ERROR_MESSAGE,
+                null,
+                new String[] { Language.Get("gui.ok") },
+                Language.Get("gui.ok")
+        );
     }
 
 }

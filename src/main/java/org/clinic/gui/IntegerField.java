@@ -1,5 +1,7 @@
 package org.clinic.gui;
 
+import org.clinic.lang.Language;
+
 import javax.swing.*;
 import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
@@ -7,33 +9,23 @@ import java.awt.*;
 import java.text.NumberFormat;
 
 public class IntegerField extends JFormattedTextField {
-    /**
-     * Constructs a new empty <code>TextField</code> with the specified
-     * number of columns.
-     * A default model is created and the initial string is set to
-     * <code>null</code>.
-     *
-     * @param columns the number of columns to use to calculate
-     *                the preferred width; if columns is set to zero, the
-     *                preferred width will be whatever naturally results from
-     *                the component implementation
-     */
+    private String placeholderTr;
+
     public IntegerField(int columns) {
         super(getNumberFormatter());
         this.setColumns(columns);
     }
 
-    /**
-     * Constructs a new <code>TextField</code>.  A default model is created,
-     * the initial string is <code>null</code>,
-     * and the number of columns is set to 0.
-     */
     public IntegerField() {
         super(getNumberFormatter());
     }
 
     public Integer getInteger() {
-        return Integer.parseInt(this.getText());
+        try {
+            return Integer.parseInt(this.getText());
+        } catch ( NumberFormatException e ) {
+            return 0;
+        }
     }
 
     public boolean isEmpty() {
@@ -41,7 +33,16 @@ public class IntegerField extends JFormattedTextField {
     }
 
     public void clear() {
-        this.setText("");
+        this.setText("0");
+    }
+
+    public boolean isInteger() {
+        try {
+            Integer.parseInt(this.getText());
+            return true;
+        } catch ( NumberFormatException e ) {
+            return false;
+        }
     }
 
     private static NumberFormatter getNumberFormatter() {
@@ -52,14 +53,37 @@ public class IntegerField extends JFormattedTextField {
         numberFormatter.setValueClass(Integer.class);
         numberFormatter.setMinimum(Integer.MIN_VALUE);
         numberFormatter.setMaximum(Integer.MAX_VALUE);
-        numberFormatter.setAllowsInvalid(false); //this is the key
+        numberFormatter.setAllowsInvalid(false);
 
         return numberFormatter;
     }
 
-    public void setPlaceholder( String placeholder ) {
-
+    public void setPlaceholder( String placeholderTr ) {
+        this.placeholderTr = placeholderTr;
     }
+
+    public String getPlaceholderTr() {
+        return placeholderTr;
+    }
+
+    @Override
+    protected void paintComponent(final Graphics pG) {
+        super.paintComponent( pG );
+
+        if ( placeholderTr == null || placeholderTr.isEmpty() || !getText().isEmpty() ) {
+            return;
+        }
+
+        final Graphics2D g = (Graphics2D) pG;
+        g.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setColor(getDisabledTextColor());
+        String placeholder = Language.Get( placeholderTr );
+        g.drawString(placeholder, getInsets().left, pG.getFontMetrics()
+                .getMaxAscent() + getInsets().top);
+    }
+
 
     public void setFlexibleSize(int minW, int minH, int maxW, int maxH) {
         Dimension minSize = new Dimension(minW, minH);

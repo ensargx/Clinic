@@ -4,10 +4,10 @@ import org.clinic.lang.Language;
 
 import javax.swing.*;
 
-public class Menu extends JMenu {
+public class GMenu extends JMenu {
     private final String title;
 
-    public Menu(String translatableKey) {
+    public GMenu(String translatableKey) {
         super(translatableKey);
         title = translatableKey;
         this.setText(getTitle());
