@@ -33,7 +33,7 @@ public class IntegerField extends JFormattedTextField {
     }
 
     public Integer getInteger() {
-        return Integer.getInteger(this.getText());
+        return Integer.parseInt(this.getText());
     }
 
     public boolean isEmpty() {

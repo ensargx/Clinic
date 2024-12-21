@@ -1,5 +1,6 @@
 package org.clinic.gui;
 
+import org.clinic.gui.menu.Menu;
 import org.clinic.gui.panels.HospitalsPanel;
 import org.clinic.gui.panels.PatientsPanel;
 import org.clinic.gui.panels.RendezvousPanel;
@@ -11,34 +12,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI {
+    JMenuBar menuBar;
+    JFrame frame;
+    JTabbedPane tabbedPane;
+
+    TabPanel hospitalsPanel;
+    TabPanel patientsPanel;
+    TabPanel rendezvousPanel;
+
+    public GUI() {
+        frame = new JFrame();
+        menuBar = createMenuBar();
+    }
 
     public void render() {
-        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
 
-        JMenuBar menuBar = createMenuBar();
+        frame.setSize(400, 300);
         frame.setJMenuBar(menuBar);
 
-        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane = new TabbedPane();
 
-        TabPanel hospitalsPanel = new HospitalsPanel();
+        hospitalsPanel = new HospitalsPanel();
         tabbedPane.addTab( hospitalsPanel.getPanelTitle(), hospitalsPanel );
 
-        TabPanel patientsPanel = new PatientsPanel();
+        patientsPanel = new PatientsPanel();
         tabbedPane.addTab( patientsPanel.getPanelTitle(), patientsPanel );
 
-        TabPanel rendezvousPanel = new RendezvousPanel();
+        rendezvousPanel = new RendezvousPanel();
         tabbedPane.addTab( rendezvousPanel.getPanelTitle(), rendezvousPanel );
 
-        Language.AddLanguageCallback(()->{
-            for ( int i = 0; i < tabbedPane.getTabCount(); ++i ) {
-                TabPanel panel = (TabPanel) tabbedPane.getComponentAt(i);
-                if ( panel != null ) {
-                    tabbedPane.setTitleAt(i, panel.getPanelTitle());
-                }
-            }
-        });
+        tabbedPane.setTabPlacement(JTabbedPane.TOP);
 
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.setVisible( true );
@@ -47,11 +51,13 @@ public class GUI {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        // using MacOS's global menu bar.
+        if (System.getProperty("os.name").contains("Mac")) {
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+        }
 
         // Create a "Language" menu
-        JMenu languageMenu = new JMenu("Language");
-
+        Menu languageMenu = new Menu("gui.menubar.language");
         for ( String lang : Language.getLanguages() ) {
             JMenuItem item = new JMenuItem( lang );
             item.addActionListener(new ActionListener() {

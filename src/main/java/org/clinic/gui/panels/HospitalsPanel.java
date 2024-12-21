@@ -3,6 +3,7 @@ package org.clinic.gui.panels;
 import org.clinic.gui.Button;
 import org.clinic.gui.IntegerField;
 import org.clinic.gui.TabPanel;
+import org.clinic.gui.TextField;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ public class HospitalsPanel extends TabPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         // Hospital Name Field
-        org.clinic.gui.TextField nameField = new org.clinic.gui.TextField( 10 );
+        TextField nameField = new TextField( 10 );
         nameField.setFlexibleSize(150, 25, 300, 30);
         nameField.setAlignmentX( Component.CENTER_ALIGNMENT );
         this.add(nameField);
@@ -25,7 +26,7 @@ public class HospitalsPanel extends TabPanel {
         this.add(idField);
 
         // Create Hospital Button
-        org.clinic.gui.Button createButton = new Button( Language.Get("gui.hospital.create") );
+        Button createButton = new Button( Language.Get("gui.hospital.create") );
         Language.AddLanguageCallback( () -> {
             createButton.setText( Language.Get("gui.hospital.create") );
         } );
@@ -55,8 +56,11 @@ public class HospitalsPanel extends TabPanel {
             // // Hastaneyi listeye ekle
             // hospitals.add("Name: " + name + ", ID: " + id);
             // updateHospitalList();
+            System.out.println("İsim: "+name);
+            System.out.println("ID  : "+id);
             nameField.clear();
             idField.clear();
+            return;
         });
 
         JLabel hospitalListLabel = new JLabel( Language.Get("gui.hospital.all_hospitals") );
