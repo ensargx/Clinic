@@ -1,4 +1,7 @@
-package org.clinic.gui;
+package org.clinic.gui.panels;
+
+import org.clinic.gui.TabPanel;
+import org.clinic.lang.Language;
 
 import javax.swing.*;
 
@@ -9,6 +12,6 @@ public class PatientsPanel extends TabPanel {
 
     @Override
     public String getPanelTitle() {
-        return "Patients";
+        return Language.Get("gui.patients.title");
     }
 }
