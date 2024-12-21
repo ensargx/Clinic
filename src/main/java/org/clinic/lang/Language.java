@@ -51,7 +51,7 @@ public class Language {
 
     private static ResourceBundle getBundle(String lang, String country) {
         Locale local = Locale.of(lang, country);
-        return PropertyResourceBundle.getBundle("Localization", local);
+        return PropertyResourceBundle.getBundle("lang/localization", local);
     }
 
     private static ResourceBundle getDefaultBundle() {
