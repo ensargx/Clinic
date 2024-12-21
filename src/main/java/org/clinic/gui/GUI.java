@@ -47,6 +47,8 @@ public class GUI {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+
         // Create a "Language" menu
         JMenu languageMenu = new JMenu("Language");
 
