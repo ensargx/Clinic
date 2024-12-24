@@ -44,4 +44,9 @@ public class Section implements Serializable {
 
         doctors.add(doctor);
     }
+
+    @Override
+    public boolean equals(Section sec) {
+        return this.getId() == sec.getId();
+    }
 }
