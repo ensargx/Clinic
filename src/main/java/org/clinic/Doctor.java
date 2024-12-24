@@ -20,6 +20,11 @@ public class Doctor extends Person {
     }
 
     @Override
+    public boolean equals(Doctor doc) {
+        return this.diploma_id == doc.diploma_id;
+    }
+
+    @Override
     public String toString() {
         return "[Doctor]\n" + super.toString();
     }
