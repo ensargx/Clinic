@@ -1,5 +1,10 @@
 package org.clinic;
 
+import org.clinic.exception.DuplicateInfoException;
+import org.clinic.exception.IDException;
+import org.clinic.person.Doctor;
+import org.clinic.person.Patient;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;

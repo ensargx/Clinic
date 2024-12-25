@@ -1,5 +1,8 @@
 package org.clinic;
 
+import org.clinic.person.Doctor;
+import org.clinic.person.Patient;
+
 import java.io.Serializable;
 import java.util.Date;
 

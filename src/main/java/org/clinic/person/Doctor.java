@@ -1,4 +1,6 @@
-package org.clinic;
+package org.clinic.person;
+
+import org.clinic.Schedule;
 
 public class Doctor extends Person {
     private final int diploma_id;
@@ -20,8 +22,14 @@ public class Doctor extends Person {
     }
 
     @Override
-    public boolean equals(Doctor doc) {
-        return this.diploma_id == doc.diploma_id;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Doctor sec = (Doctor) obj;
+
+        return this.getDiplomaId() == sec.getDiplomaId();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.clinic;
+package org.clinic.person;
 
 public class Patient extends Person {
     public Patient(String name, long national_id) {

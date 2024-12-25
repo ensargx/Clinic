@@ -1,5 +1,7 @@
 package org.clinic;
 
+import org.clinic.exception.DuplicateInfoException;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Objects;

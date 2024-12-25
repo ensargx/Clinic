@@ -1,21 +1,17 @@
 package org.clinic.gui.panels;
 
-import org.clinic.Hospital;
 import org.clinic.gui.*;
 import org.clinic.gui.TextField;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
 
 public class HospitalsPanel extends TabPanel {
-    private HashMap<Integer, Hospital> hospitals;
     private IGUIListener listener;
     private JPanel listPanel;
 
-    public HospitalsPanel( IGUIListener listener, HashMap<Integer, Hospital> hospitals ) {
-        this.hospitals = hospitals;
+    public HospitalsPanel( IGUIListener listener ) {
         this.listener = listener;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -77,7 +73,7 @@ public class HospitalsPanel extends TabPanel {
     public void renderHospitals() {
         listPanel.removeAll();
 
-        hospitals.forEach(( id, hospital ) -> {
+        listener.getHospitals().forEach(( id, hospital ) -> {
             JPanel taskPanel = new JPanel();
 
             JPanel infoPanel = new JPanel();

@@ -1,5 +1,8 @@
 package org.clinic;
 
+import org.clinic.exception.DuplicateInfoException;
+import org.clinic.person.Doctor;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -36,17 +39,21 @@ public class Section implements Serializable {
     }
 
     public void addDoctor(Doctor doctor) throws DuplicateInfoException {
-        for ( Doctor doc : doctors ) {
-            if ( doc == doctor ) {
-                throw new DuplicateInfoException("The doctor allready exists!");
-            }
+        if ( doctors.contains( doctor ) ) {
+            throw new DuplicateInfoException("The doctor already exists!");
         }
 
         doctors.add(doctor);
     }
 
     @Override
-    public boolean equals(Section sec) {
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Section sec = (Section) obj;
+
         return this.getId() == sec.getId();
     }
 }

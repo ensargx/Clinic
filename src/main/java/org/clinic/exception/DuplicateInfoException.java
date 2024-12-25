@@ -1,4 +1,4 @@
-package org.clinic;
+package org.clinic.exception;
 
 public class DuplicateInfoException extends RuntimeException {
     /**

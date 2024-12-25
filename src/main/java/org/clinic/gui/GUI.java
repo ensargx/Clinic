@@ -1,6 +1,5 @@
 package org.clinic.gui;
 
-import org.clinic.Hospital;
 import org.clinic.gui.menu.GMenu;
 import org.clinic.gui.panels.HospitalsPanel;
 import org.clinic.gui.panels.PatientsPanel;
@@ -9,9 +8,6 @@ import org.clinic.lang.Language;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 public class GUI {
     JMenuBar menuBar;
@@ -30,7 +26,7 @@ public class GUI {
         menuBar = createMenuBar();
     }
 
-    public void render( HashMap<Integer, Hospital> hospitals ) {
+    public void render( ) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setSize(400, 300);
@@ -38,7 +34,7 @@ public class GUI {
 
         tabbedPane = new TabbedPane();
 
-        hospitalsPanel = new HospitalsPanel( listener, hospitals );
+        hospitalsPanel = new HospitalsPanel( listener );
         tabbedPane.addTab( hospitalsPanel.getPanelTitle(), hospitalsPanel );
 
         patientsPanel = new PatientsPanel();
@@ -65,12 +61,7 @@ public class GUI {
         GMenu languageMenu = new GMenu("gui.menubar.language");
         for ( String lang : Language.getLanguages() ) {
             JMenuItem item = new JMenuItem( lang );
-            item.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Language.SetLanguage( lang );
-                }
-            });
+            item.addActionListener(e -> Language.SetLanguage( lang ));
             languageMenu.add( item );
         }
 

@@ -1,4 +1,4 @@
-package org.clinic;
+package org.clinic.person;
 
 import java.io.Serializable;
 
