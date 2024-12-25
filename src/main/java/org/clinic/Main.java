@@ -44,7 +44,12 @@ public class Main {
 
         GUI gui = new GUI(new IGUIListener() {
             @Override
-            public void onHospitalAdded(String name, Integer id) {
+            public HashMap<Integer, Hospital> getHospitals() {
+                return crs.getHospitals();
+            }
+
+            @Override
+            public void onHospitalCreated(String name, Integer id) {
                 System.out.println("test name: "+name+" id: "+id);
                 try {
                     crs.createHospital( id ,name );
@@ -54,8 +59,18 @@ public class Main {
             }
 
             @Override
-            public HashMap<Integer, Hospital> getHospitals() {
-                return crs.getHospitals();
+            public HashMap<Long, Patient> getPatients() {
+                return crs.getPatients();
+            }
+
+            @Override
+            public void onPatientCreated(String name, Integer nationalId) {
+                System.out.println("[dbg] patient create: name: "+name+" id: "+nationalId);
+                try {
+                    crs.createPatient( name, nationalId );
+                } catch ( DuplicateInfoException err ) {
+                    GUI.ErrorMessage( err.getMessage() );
+                }
             }
         });
 

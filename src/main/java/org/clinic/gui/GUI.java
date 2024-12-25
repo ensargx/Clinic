@@ -37,7 +37,7 @@ public class GUI {
         hospitalsPanel = new HospitalsPanel( listener );
         tabbedPane.addTab( hospitalsPanel.getPanelTitle(), hospitalsPanel );
 
-        patientsPanel = new PatientsPanel();
+        patientsPanel = new PatientsPanel( listener );
         tabbedPane.addTab( patientsPanel.getPanelTitle(), patientsPanel );
 
         rendezvousPanel = new RendezvousPanel();

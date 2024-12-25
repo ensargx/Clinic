@@ -1,10 +1,14 @@
 package org.clinic.gui;
 
 import org.clinic.Hospital;
+import org.clinic.person.Patient;
 
 import java.util.HashMap;
 
 public interface IGUIListener {
     HashMap<Integer, Hospital> getHospitals();
-    void onHospitalAdded(String name, Integer id);
+    void onHospitalCreated(String name, Integer id);
+
+    HashMap<Long, Patient> getPatients();
+    void onPatientCreated( String name, Integer nationalId );
 }

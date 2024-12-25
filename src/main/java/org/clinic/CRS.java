@@ -57,7 +57,11 @@ public class CRS {
         return hospital;
     }
 
-    public Patient createPatient( String name, long nationalId ) throws DuplicateInfoException {
+    public HashMap<Long, Patient> getPatients() {
+        return patients;
+    }
+
+    public Patient createPatient(String name, long nationalId ) throws DuplicateInfoException {
         if (patients.containsKey( nationalId ) ) {
             throw new DuplicateInfoException("Patient with given nationalId exist: " + nationalId);
         }

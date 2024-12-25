@@ -16,20 +16,6 @@ public class HospitalsPanel extends TabPanel {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Hospital Name Field
-        TextField nameField = new TextField( 10 );
-        nameField.setPlaceholder( "gui.hospital.name_placeholder" );
-        nameField.setFlexibleSize(150, 25, 300, 30);
-        nameField.setAlignmentX( Component.CENTER_ALIGNMENT );
-        this.add(nameField);
-
-        // Hospital ID Field
-        IntegerField idField = new IntegerField(10);
-        idField.setPlaceholder( "gui.hospital.id_placeholder" );
-        idField.setFlexibleSize( 150, 25, 300, 30 );
-        idField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(idField);
-
         // Create Hospital Button
         GButton createButton = new GButton( "gui.hospital.create" );
         createButton.setFlexibleSize(150, 30, 300, 40);
@@ -37,27 +23,7 @@ public class HospitalsPanel extends TabPanel {
         this.add(createButton);
 
         // Event: create hospital
-        createButton.addActionListener(e -> {
-            String name = nameField.getText().trim();
-            if (name.isEmpty() || !idField.isInteger() || idField.isEmpty()) {
-                JOptionPane.showOptionDialog(
-                        this,
-                        Language.Get("gui.hospital.error_name_id_null"),
-                        Language.Get("gui.error"),
-                        JOptionPane.DEFAULT_OPTION,
-                        JOptionPane.ERROR_MESSAGE,
-                    null,
-                        new String[] { Language.Get("gui.ok") },
-                        Language.Get("gui.ok")
-                );
-                return;
-            }
-            Integer id = idField.getInteger();
-            nameField.clear();
-            idField.clear();
-            listener.onHospitalAdded( name, id );
-            renderHospitals();
-        });
+        createButton.addActionListener( e -> openAddHospitalDialog() );
 
         JLabel hospitalListLabel = new GLabel( "gui.hospital.all_hospitals" );
         hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -73,6 +39,7 @@ public class HospitalsPanel extends TabPanel {
     public void renderHospitals() {
         listPanel.removeAll();
 
+        // Info panel for each hospital
         listener.getHospitals().forEach(( id, hospital ) -> {
             JPanel taskPanel = new JPanel();
 
@@ -94,6 +61,64 @@ public class HospitalsPanel extends TabPanel {
 
         listPanel.revalidate();
         listPanel.repaint();
+    }
+
+    private void openAddHospitalDialog() {
+        JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), Language.Get( "gui.hospital.create_hospital_popup" ), true);
+        dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+        dialog.setSize(300, 150);
+        dialog.setLocationRelativeTo(this);
+
+        // Hospital Name Field
+        TextField nameField = new TextField( 10 );
+        nameField.setPlaceholder( "gui.hospital.name_placeholder" );
+        nameField.setFlexibleSize(150, 25, 300, 30);
+        nameField.setAlignmentX( Component.CENTER_ALIGNMENT );
+        dialog.add(nameField);
+
+        // Hospital ID Field
+        IntegerField idField = new IntegerField(10);
+        idField.setPlaceholder( "gui.hospital.id_placeholder" );
+        idField.setFlexibleSize( 150, 25, 300, 30 );
+        idField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dialog.add(idField);
+
+        // Buttons
+        JPanel buttonPanel = new JPanel();
+        JButton saveButton = new JButton(Language.Get("gui.save"));
+        JButton cancelButton = new JButton(Language.Get("gui.cancel"));
+
+        saveButton.addActionListener(e -> {
+            String name = nameField.getText().trim();
+            if (name.isEmpty() || !idField.isInteger() || idField.isEmpty()) {
+                JOptionPane.showOptionDialog(
+                        this,
+                        Language.Get("gui.hospital.error_name_id_null"),
+                        Language.Get("gui.error"),
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        new String[] { Language.Get("gui.ok") },
+                        Language.Get("gui.ok")
+                );
+                return;
+            }
+            Integer id = idField.getInteger();
+            nameField.clear();
+            idField.clear();
+            listener.onHospitalCreated( name, id );
+            renderHospitals();
+
+            dialog.dispose();
+        });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        buttonPanel.add(saveButton);
+        buttonPanel.add(cancelButton);
+        dialog.add(buttonPanel);
+
+        dialog.setVisible(true);
     }
 
     @Override
