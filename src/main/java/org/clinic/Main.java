@@ -72,6 +72,17 @@ public class Main {
                     GUI.ErrorMessage( err.getMessage() );
                 }
             }
+
+            @Override
+            public void onSectionCreated(Hospital hospital, String name, Integer id) {
+                Section section = new Section( id, name );
+
+                try {
+                    hospital.addSection(section);
+                } catch (DuplicateInfoException e) {
+                    GUI.ErrorMessage(e.getMessage());
+                }
+            }
         });
 
         gui.render( );

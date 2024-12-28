@@ -48,6 +48,10 @@ public class Hospital implements Serializable {
         return id;
     }
 
+    public LinkedList<Section> getSections() {
+        return sections;
+    }
+
     public String getName() {
         return name;
     }

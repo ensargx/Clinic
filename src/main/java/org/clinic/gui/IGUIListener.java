@@ -11,4 +11,6 @@ public interface IGUIListener {
 
     HashMap<Long, Patient> getPatients();
     void onPatientCreated( String name, Integer nationalId );
+
+    void onSectionCreated( Hospital hospital, String name, Integer id );
 }
