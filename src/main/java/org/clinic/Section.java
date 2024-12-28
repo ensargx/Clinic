@@ -46,6 +46,10 @@ public class Section implements Serializable {
         doctors.add(doctor);
     }
 
+    public LinkedList<Doctor> getDoctors() {
+        return doctors;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

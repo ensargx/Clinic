@@ -1,28 +1,26 @@
 package org.clinic.gui.panels;
 
 import org.clinic.Hospital;
+import org.clinic.Section;
 import org.clinic.gui.*;
 import org.clinic.gui.GTextField;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.function.BiConsumer;
 
 public class HospitalsPanel extends GTabPanel {
     private IGUIListener listener;
     private CardLayout cardLayout;
     private JPanel cardPanel;
-    private JPanel allHospitalsPanel = new JPanel();
-    private JPanel hospitalPanel = new JPanel();
-    private JPanel allSectionsPanel = new JPanel();
-    private JPanel sectionPanel = new JPanel();
+    private JPanel hospitalsPanel = new JPanel();
+    private JPanel sectionsPanel = new JPanel();
+    private JPanel doctorsPanel = new JPanel();
 
-    private static final String sAllHospitals = "AllHospitals";
-    private static final String sHospital = "Hospital";
-    private static final String sAllSections = "AllSections";
-    private static final String sSection = "Section";
+    private static final String sHospitals = "Hospitals";
+    private static final String sSections = "Sections";
+    private static final String sDoctors = "Doctors";
 
     public HospitalsPanel( IGUIListener listener ) {
         this.listener = listener;
@@ -30,12 +28,11 @@ public class HospitalsPanel extends GTabPanel {
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
 
-        cardPanel.add(allHospitalsPanel, sAllHospitals);
-        cardPanel.add(hospitalPanel, sHospital);
-        cardPanel.add(allSectionsPanel, sAllSections);
-        cardPanel.add(sectionPanel, sSection);
+        cardPanel.add(hospitalsPanel, sHospitals);
+        cardPanel.add(sectionsPanel, sSections);
+        cardPanel.add(doctorsPanel, sDoctors);
 
-        renderAllHospitals();
+        renderHospitals();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -46,10 +43,10 @@ public class HospitalsPanel extends GTabPanel {
         cardLayout.show(cardPanel, paneStr);
     }
 
-    private void renderAllHospitals() {
-        allHospitalsPanel.removeAll();
+    private void renderHospitals() {
+        hospitalsPanel.removeAll();
 
-        allHospitalsPanel.setLayout(new BoxLayout(allHospitalsPanel, BoxLayout.Y_AXIS));
+        hospitalsPanel.setLayout(new BoxLayout(hospitalsPanel, BoxLayout.Y_AXIS));
 
         GButton createButton = new GButton( "gui.hospital.create" );
         createButton.setFlexibleSize(150, 30, 300, 40);
@@ -59,11 +56,11 @@ public class HospitalsPanel extends GTabPanel {
         createButton.addActionListener( e -> openAddHospitalDialog() );
 
         // Create Hospital Button
-        allHospitalsPanel.add(createButton);
+        hospitalsPanel.add(createButton);
 
         JLabel hospitalListLabel = new GLabel( "gui.hospital.all_hospitals" );
         hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        allHospitalsPanel.add(hospitalListLabel);
+        hospitalsPanel.add(hospitalListLabel);
 
         // Info panel for each hospital
         listener.getHospitals().forEach(( id, hospital ) -> {
@@ -80,30 +77,30 @@ public class HospitalsPanel extends GTabPanel {
             JPanel actionPanel = new JPanel(new FlowLayout());
 
             completeButton.addActionListener(e -> {
-                renderAllSections(hospital);
+                renderSections(hospital);
             });
 
             actionPanel.add(completeButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
 
-            allHospitalsPanel.add(taskPanel);
+            hospitalsPanel.add(taskPanel);
         });
 
-        allHospitalsPanel.revalidate();
-        allHospitalsPanel.repaint();
+        hospitalsPanel.revalidate();
+        hospitalsPanel.repaint();
 
-        switchTab(HospitalsPanel.sAllHospitals);
+        switchTab(HospitalsPanel.sHospitals);
     }
 
 
-    private void renderAllSections( Hospital hospital ) {
-        allSectionsPanel.removeAll();
+    private void renderSections(Hospital hospital ) {
+        sectionsPanel.removeAll();
 
-        allSectionsPanel.setLayout(new BoxLayout(allSectionsPanel, BoxLayout.Y_AXIS));
+        sectionsPanel.setLayout(new BoxLayout(sectionsPanel, BoxLayout.Y_AXIS));
 
         GButton backButton = new GButton( "gui.back" );
         backButton.addActionListener(e -> {
-            renderAllHospitals();
+            renderHospitals();
         });
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -113,13 +110,12 @@ public class HospitalsPanel extends GTabPanel {
         createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         createButton.addActionListener( e -> openCreateSectionDialog(hospital) );
 
-        // Create Hospital Button
         JLabel hospitalListLabel = new GLabel( "gui.hospital.all_sections" );
         hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        allSectionsPanel.add(backButton);
-        allSectionsPanel.add(createButton);
-        allSectionsPanel.add(hospitalListLabel);
+        sectionsPanel.add(backButton);
+        sectionsPanel.add(createButton);
+        sectionsPanel.add(hospitalListLabel);
 
         // Info panel for each section
         hospital.getSections().forEach(section -> {
@@ -136,18 +132,55 @@ public class HospitalsPanel extends GTabPanel {
             JPanel actionPanel = new JPanel(new FlowLayout());
 
             completeButton.addActionListener(e -> {
+                renderDoctors(hospital, section);
             });
 
             actionPanel.add(completeButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
 
-            allSectionsPanel.add(taskPanel);
+            sectionsPanel.add(taskPanel);
         });
 
-        allSectionsPanel.revalidate();
-        allSectionsPanel.repaint();
+        sectionsPanel.revalidate();
+        sectionsPanel.repaint();
 
-        switchTab(HospitalsPanel.sAllSections);
+        switchTab(HospitalsPanel.sSections);
+    }
+
+    private void renderDoctors(Hospital hospital, Section section) {
+        doctorsPanel.removeAll();
+
+        doctorsPanel.setLayout(new BoxLayout(doctorsPanel, BoxLayout.Y_AXIS));
+
+        GButton backButton = new GButton( "gui.back" );
+        backButton.addActionListener(e -> {
+            renderSections(hospital);
+        });
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Event: create doctor
+        GButton newDoctorButton = new GButton( "gui.hospital.new_doctor" );
+        newDoctorButton.setFlexibleSize(150, 30, 300, 40);
+        newDoctorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newDoctorButton.addActionListener( e -> openNewDoctorDialog(section) );
+
+        // All doctors list
+        JLabel doctorsListPanel = new GLabel( "gui.hospital.all_doctors" );
+        doctorsListPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        doctorsPanel.add(backButton);
+        doctorsPanel.add(newDoctorButton);
+        doctorsPanel.add(doctorsListPanel);
+
+        section.getDoctors().forEach(doctor -> {
+           JLabel label = new JLabel( doctor.toString() );
+           doctorsPanel.add(label);
+        });
+
+        doctorsPanel.revalidate();
+        doctorsPanel.repaint();
+
+        switchTab(HospitalsPanel.sDoctors);
     }
 
     private void openDialogStrInt(String label1, String label2, String errorLabel, BiConsumer<String, Integer> callback ) {
@@ -212,7 +245,7 @@ public class HospitalsPanel extends GTabPanel {
         openDialogStrInt("gui.hospital.name_placeholder", "gui.hospital.id_placeholder", "gui.hospital.error_name_id_null",
             (name, id) -> {
                 listener.onHospitalCreated( name, id );
-                renderAllHospitals();
+                renderHospitals();
         });
     }
 
@@ -220,8 +253,12 @@ public class HospitalsPanel extends GTabPanel {
         openDialogStrInt("gui.hospital.section_name_placeholder", "gui.hospital.section_id_placeholder", "gui.hospital.error_section_name_id_null",
             (name, id) -> {
                 listener.onSectionCreated(hospital, name, id);
-                renderAllSections(hospital);
+                renderSections(hospital);
         });
+    }
+
+    private void openNewDoctorDialog(Section section) {
+
     }
 
     @Override
