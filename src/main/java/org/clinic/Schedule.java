@@ -11,15 +11,9 @@ import java.util.LinkedList;
 public class Schedule implements Serializable {
     private LinkedList<Rendezvous> sessions = new LinkedList<>();
     private int maxPatientPerDay;
-    private Doctor doctor;
 
-    public Schedule(Doctor doctor, int maxPatientPerDay) {
+    public Schedule(int maxPatientPerDay) {
         this.maxPatientPerDay = maxPatientPerDay;
-        this.doctor = doctor;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
     }
 
     public Rendezvous addRendezvous(Patient patient, Date desiredDate) {
@@ -27,7 +21,7 @@ public class Schedule implements Serializable {
             return null;
         }
 
-        Rendezvous rendezvous = new Rendezvous( doctor, patient, desiredDate );
+        Rendezvous rendezvous = new Rendezvous( patient, desiredDate );
 
         sessions.add( rendezvous );
 
