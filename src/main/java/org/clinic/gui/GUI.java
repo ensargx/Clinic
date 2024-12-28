@@ -14,9 +14,9 @@ public class GUI {
     JFrame frame;
     JTabbedPane tabbedPane;
 
-    TabPanel hospitalsPanel;
-    TabPanel patientsPanel;
-    TabPanel rendezvousPanel;
+    GTabPanel hospitalsPanel;
+    GTabPanel patientsPanel;
+    GTabPanel rendezvousPanel;
 
     IGUIListener listener;
 
@@ -32,7 +32,7 @@ public class GUI {
         frame.setSize(400, 300);
         frame.setJMenuBar(menuBar);
 
-        tabbedPane = new TabbedPane();
+        tabbedPane = new GTabbedPane();
 
         hospitalsPanel = new HospitalsPanel( listener );
         tabbedPane.addTab( hospitalsPanel.getPanelTitle(), hospitalsPanel );

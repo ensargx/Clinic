@@ -11,7 +11,11 @@ public class Language {
     private static ArrayList<Runnable> callbacks = new ArrayList<>();
 
     public static String Get( String translatableKey ) {
-        return activeResource.getString( translatableKey );
+        try {
+            return activeResource.getString( translatableKey );
+        } catch ( MissingResourceException e ) {
+            return translatableKey;
+        }
     }
 
     public static boolean AddLanguageCallback( Runnable runnable ) {

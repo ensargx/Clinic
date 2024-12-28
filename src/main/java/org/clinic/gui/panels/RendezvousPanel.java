@@ -1,11 +1,11 @@
 package org.clinic.gui.panels;
 
-import org.clinic.gui.TabPanel;
+import org.clinic.gui.GTabPanel;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
 
-public class RendezvousPanel extends TabPanel {
+public class RendezvousPanel extends GTabPanel {
     public RendezvousPanel() {
         this.add( new JLabel( "Rendezvous Panel" ) );
     }

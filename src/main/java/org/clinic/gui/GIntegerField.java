@@ -3,20 +3,19 @@ package org.clinic.gui;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
-import javax.swing.text.Document;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.text.NumberFormat;
 
-public class IntegerField extends JFormattedTextField {
+public class GIntegerField extends JFormattedTextField {
     private String placeholderTr;
 
-    public IntegerField(int columns) {
+    public GIntegerField(int columns) {
         super(getNumberFormatter());
         this.setColumns(columns);
     }
 
-    public IntegerField() {
+    public GIntegerField() {
         super(getNumberFormatter());
     }
 

@@ -4,11 +4,11 @@ import org.clinic.lang.Language;
 
 import javax.swing.*;
 
-public class TabbedPane extends JTabbedPane {
-    public TabbedPane() {
+public class GTabbedPane extends JTabbedPane {
+    public GTabbedPane() {
         Language.AddLanguageCallback(()->{
             for ( int i = 0; i < this.getTabCount(); ++i ) {
-                TabPanel panel = (TabPanel) this.getComponentAt(i);
+                GTabPanel panel = (GTabPanel) this.getComponentAt(i);
                 if ( panel != null ) {
                     this.setTitleAt(i, panel.getPanelTitle());
                 }

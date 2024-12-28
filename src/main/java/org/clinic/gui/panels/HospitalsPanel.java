@@ -1,13 +1,13 @@
 package org.clinic.gui.panels;
 
 import org.clinic.gui.*;
-import org.clinic.gui.TextField;
+import org.clinic.gui.GTextField;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class HospitalsPanel extends TabPanel {
+public class HospitalsPanel extends GTabPanel {
     private IGUIListener listener;
     private JPanel listPanel;
 
@@ -70,14 +70,14 @@ public class HospitalsPanel extends TabPanel {
         dialog.setLocationRelativeTo(this);
 
         // Hospital Name Field
-        TextField nameField = new TextField( 10 );
+        GTextField nameField = new GTextField( 10 );
         nameField.setPlaceholder( "gui.hospital.name_placeholder" );
         nameField.setFlexibleSize(150, 25, 300, 30);
         nameField.setAlignmentX( Component.CENTER_ALIGNMENT );
         dialog.add(nameField);
 
         // Hospital ID Field
-        IntegerField idField = new IntegerField(10);
+        GIntegerField idField = new GIntegerField(10);
         idField.setPlaceholder( "gui.hospital.id_placeholder" );
         idField.setFlexibleSize( 150, 25, 300, 30 );
         idField.setAlignmentX(Component.CENTER_ALIGNMENT);

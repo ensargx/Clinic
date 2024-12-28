@@ -6,7 +6,7 @@ import javax.swing.*;
 import javax.swing.text.Document;
 import java.awt.*;
 
-public class TextField extends JTextField {
+public class GTextField extends JTextField {
     private String placeholderTr;
 
     /**
@@ -25,7 +25,7 @@ public class TextField extends JTextField {
      *                naturally results from the component implementation
      * @throws IllegalArgumentException if <code>columns</code> &lt; 0
      */
-    public TextField(Document doc, String text, int columns) {
+    public GTextField(Document doc, String text, int columns) {
         super(doc, text, columns);
     }
 
@@ -39,7 +39,7 @@ public class TextField extends JTextField {
      *                preferred width will be whatever naturally results from
      *                the component implementation
      */
-    public TextField(String text, int columns) {
+    public GTextField(String text, int columns) {
         super(text, columns);
     }
 
@@ -54,7 +54,7 @@ public class TextField extends JTextField {
      *                preferred width will be whatever naturally results from
      *                the component implementation
      */
-    public TextField(int columns) {
+    public GTextField(int columns) {
         super(columns);
     }
 
@@ -65,7 +65,7 @@ public class TextField extends JTextField {
      *
      * @param text the text to be displayed, or <code>null</code>
      */
-    public TextField(String text) {
+    public GTextField(String text) {
         super(text);
     }
 
@@ -74,7 +74,7 @@ public class TextField extends JTextField {
      * the initial string is <code>null</code>,
      * and the number of columns is set to 0.
      */
-    public TextField() {
+    public GTextField() {
     }
 
     public void setPlaceholder( String placeholderTr ) {
