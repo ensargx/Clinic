@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class Main {
     private static boolean isGui;
-    private static String fullPath = null;
+    private static String savedPath = null;
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
@@ -69,6 +69,17 @@ public class Main {
                     GUI.ErrorMessage(e.getMessage());
                 }
             }
+
+            @Override
+            public void onFileLoad(String fullPath) {
+                crs.loadTablesFromDisc(fullPath);
+            }
+
+            @Override
+            public void onFileSave(String fullPath) {
+                crs.saveTablesToDisk(fullPath);
+            }
+
         });
 
         gui.render( );

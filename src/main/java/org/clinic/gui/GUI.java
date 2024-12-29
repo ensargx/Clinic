@@ -10,7 +10,9 @@ import org.clinic.gui.panels.RendezvousPanel;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
 
 public class GUI {
     JMenuBar menuBar;
@@ -71,7 +73,27 @@ public class GUI {
         // Create 'File' section for saving/loading
         GMenu fileMenu = new GMenu( "gui.menubar.file" );
         GMenuItem load = new GMenuItem("gui.menubar.load");
+        load.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Clinic", "clinic");
+            fileChooser.setFileFilter(filter);
+            if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                listener.onFileLoad(file.getPath());
+                reRender();
+            }
+        });
         GMenuItem save = new GMenuItem( "gui.menubar.save" );
+        save.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Clinic", "clinic");
+            fileChooser.setFileFilter(filter);
+            if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                listener.onFileSave(file.getPath());
+            }
+        });
+
         fileMenu.add(load);
         fileMenu.add(save);
 
@@ -92,6 +114,12 @@ public class GUI {
                 new String[] { Language.Get("gui.ok") },
                 Language.Get("gui.ok")
         );
+    }
+
+    public void reRender() {
+        hospitalsPanel.reRender();
+        patientsPanel.reRender();
+        rendezvousPanel.reRender();
     }
 
 }

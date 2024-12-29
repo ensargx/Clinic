@@ -340,4 +340,9 @@ public class HospitalsPanel extends GTabPanel {
     public String getPanelTitle() {
         return Language.Get( "gui.hospital.title" );
     }
+
+    @Override
+    public void reRender() {
+        renderHospitals();
+    }
 }
