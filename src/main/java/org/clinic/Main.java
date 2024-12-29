@@ -6,41 +6,16 @@ import org.clinic.gui.IGUIListener;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
-import java.util.Date;
 import java.util.HashMap;
 
 public class Main {
     private static boolean isGui;
+    private static String fullPath = null;
 
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
         CRS crs = new CRS();
-
-        Hospital h1 = new Hospital(1, "Ensar");
-
-        Section dis = new Section(1, "Dis");
-        Section kbb = new Section(2, "KBB");
-
-        Doctor disci1 = new Doctor( "Ensar", 1, 1, 2);
-        Doctor disci2 = new Doctor( "Mert", 12, 2, 4);
-        dis.addDoctor(disci1);
-        dis.addDoctor(disci2);
-
-        Doctor kbbci1 = new Doctor( "Habil", 13, 3, 6);
-        Doctor kbbci2 = new Doctor( "Orcun", 4, 4, 7);
-        kbb.addDoctor(kbbci1);
-        kbb.addDoctor(kbbci2);
-
-        h1.addSection(dis);
-        h1.addSection(kbb);
-
-        Schedule disci1sc = disci1.getSchedule();
-
-        Patient p1 = new Patient("Hasta1", 32);
-        Date desired = new Date();
-        desired.setTime(3232);
-        disci1sc.addRendezvous(p1, desired);
 
         GUI gui = new GUI(new IGUIListener() {
             @Override
@@ -79,6 +54,17 @@ public class Main {
 
                 try {
                     hospital.addSection(section);
+                } catch (DuplicateInfoException e) {
+                    GUI.ErrorMessage(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onDoctorAdded(Section section, String name, Integer nationalId, Integer diplomaId, Integer maxPatients) {
+                Doctor doctor = new Doctor(name, nationalId, diplomaId, maxPatients);
+
+                try {
+                    section.addDoctor(doctor);
                 } catch (DuplicateInfoException e) {
                     GUI.ErrorMessage(e.getMessage());
                 }

@@ -1,6 +1,6 @@
 package org.clinic.gui.panels;
 
-import org.clinic.gui.GTabPanel;
+import org.clinic.gui.lib.GTabPanel;
 import org.clinic.lang.Language;
 
 import javax.swing.*;

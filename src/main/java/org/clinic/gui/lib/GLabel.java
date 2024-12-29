@@ -1,4 +1,4 @@
-package org.clinic.gui;
+package org.clinic.gui.lib;
 
 import org.clinic.lang.Language;
 

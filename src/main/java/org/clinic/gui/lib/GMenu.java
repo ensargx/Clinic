@@ -1,15 +1,15 @@
-package org.clinic.gui.menu;
+package org.clinic.gui.lib;
 
 import org.clinic.lang.Language;
 
 import javax.swing.*;
 
-public class MenuItem extends JMenuItem {
+public class GMenu extends JMenu {
     private final String title;
 
-    public MenuItem(String translatableKey) {
+    public GMenu(String translatableKey) {
         super(translatableKey);
-        this.title = translatableKey;
+        title = translatableKey;
         this.setText(getTitle());
         Language.AddLanguageCallback(()->{
             this.setText(getTitle());

@@ -1,7 +1,7 @@
 package org.clinic.gui.panels;
 
 import org.clinic.gui.*;
-import org.clinic.gui.GTextField;
+import org.clinic.gui.lib.*;
 import org.clinic.lang.Language;
 
 import javax.swing.*;

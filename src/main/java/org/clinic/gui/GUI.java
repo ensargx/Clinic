@@ -1,6 +1,9 @@
 package org.clinic.gui;
 
-import org.clinic.gui.menu.GMenu;
+import org.clinic.gui.lib.GMenuItem;
+import org.clinic.gui.lib.GTabPanel;
+import org.clinic.gui.lib.GTabbedPane;
+import org.clinic.gui.lib.GMenu;
 import org.clinic.gui.panels.HospitalsPanel;
 import org.clinic.gui.panels.PatientsPanel;
 import org.clinic.gui.panels.RendezvousPanel;
@@ -65,7 +68,14 @@ public class GUI {
             languageMenu.add( item );
         }
 
-        // Add the Language menu to the menu bar
+        // Create 'File' section for saving/loading
+        GMenu fileMenu = new GMenu( "gui.menubar.file" );
+        GMenuItem load = new GMenuItem("gui.menubar.load");
+        GMenuItem save = new GMenuItem( "gui.menubar.save" );
+        fileMenu.add(load);
+        fileMenu.add(save);
+
+        menuBar.add(fileMenu);
         menuBar.add(languageMenu);
 
         return menuBar;

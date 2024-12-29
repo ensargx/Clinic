@@ -3,7 +3,7 @@ package org.clinic.gui.panels;
 import org.clinic.Hospital;
 import org.clinic.Section;
 import org.clinic.gui.*;
-import org.clinic.gui.GTextField;
+import org.clinic.gui.lib.*;
 import org.clinic.lang.Language;
 
 import javax.swing.*;
@@ -162,7 +162,7 @@ public class HospitalsPanel extends GTabPanel {
         GButton newDoctorButton = new GButton( "gui.hospital.new_doctor" );
         newDoctorButton.setFlexibleSize(150, 30, 300, 40);
         newDoctorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        newDoctorButton.addActionListener( e -> openNewDoctorDialog(section) );
+        newDoctorButton.addActionListener( e -> openNewDoctorDialog(hospital, section) );
 
         // All doctors list
         JLabel doctorsListPanel = new GLabel( "gui.hospital.all_doctors" );
@@ -183,20 +183,20 @@ public class HospitalsPanel extends GTabPanel {
         switchTab(HospitalsPanel.sDoctors);
     }
 
-    private void openDialogStrInt(String label1, String label2, String errorLabel, BiConsumer<String, Integer> callback ) {
-        JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), Language.Get( "gui.hospital.create_hospital_popup" ), true);
+    private void openDialogStrInt(String labelTitle, String label1, String label2, String errorLabel, BiConsumer<String, Integer> callback ) {
+        JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), Language.Get( labelTitle ), true);
         dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
         dialog.setSize(300, 150);
         dialog.setLocationRelativeTo(this);
 
-        // Hospital Name Field
+        // Name Field
         GTextField nameField = new GTextField( 10 );
         nameField.setPlaceholder( label1 );
         nameField.setFlexibleSize(150, 25, 300, 30);
         nameField.setAlignmentX( Component.CENTER_ALIGNMENT );
         dialog.add(nameField);
 
-        // Hospital ID Field
+        // ID Field
         GIntegerField idField = new GIntegerField(10);
         idField.setPlaceholder( label2 );
         idField.setFlexibleSize( 150, 25, 300, 30 );
@@ -242,7 +242,7 @@ public class HospitalsPanel extends GTabPanel {
     }
 
     private void openAddHospitalDialog() {
-        openDialogStrInt("gui.hospital.name_placeholder", "gui.hospital.id_placeholder", "gui.hospital.error_name_id_null",
+        openDialogStrInt( "gui.hospital.create_hospital_popup","gui.hospital.name_placeholder", "gui.hospital.id_placeholder", "gui.hospital.error_name_id_null",
             (name, id) -> {
                 listener.onHospitalCreated( name, id );
                 renderHospitals();
@@ -250,15 +250,90 @@ public class HospitalsPanel extends GTabPanel {
     }
 
     private void openCreateSectionDialog(Hospital hospital) {
-        openDialogStrInt("gui.hospital.section_name_placeholder", "gui.hospital.section_id_placeholder", "gui.hospital.error_section_name_id_null",
+        openDialogStrInt("gui.hospital.create_section_popup", "gui.hospital.section_name_placeholder", "gui.hospital.section_id_placeholder", "gui.hospital.error_section_name_id_null",
             (name, id) -> {
                 listener.onSectionCreated(hospital, name, id);
                 renderSections(hospital);
         });
     }
 
-    private void openNewDoctorDialog(Section section) {
+    private void openNewDoctorDialog(Hospital hospital, Section section) {
+        JDialog dialog = new JDialog((JFrame) SwingUtilities.getWindowAncestor(this), Language.Get( "gui.hospital.new_doctor" ), true);
+        dialog.setLayout(new BoxLayout(dialog.getContentPane(), BoxLayout.Y_AXIS));
+        dialog.setSize(300, 150);
+        dialog.setLocationRelativeTo(this);
 
+        // Name Field
+        GTextField nameField = new GTextField( 10 );
+        nameField.setPlaceholder( "gui.hospital.new_doctor_name" );
+        nameField.setFlexibleSize(150, 25, 300, 30);
+        nameField.setAlignmentX( Component.CENTER_ALIGNMENT );
+        dialog.add(nameField);
+
+        // national ID Field
+        GIntegerField nationalIdField = new GIntegerField(10);
+        nationalIdField.setPlaceholder( "gui.hospital.new_doctor_national_id" );
+        nationalIdField.setFlexibleSize( 150, 25, 300, 30 );
+        nationalIdField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dialog.add(nationalIdField);
+
+        // diploma ID Field
+        GIntegerField diplomaIdField = new GIntegerField(10);
+        diplomaIdField.setPlaceholder( "gui.hospital.new_doctor_national_id" );
+        diplomaIdField.setFlexibleSize( 150, 25, 300, 30 );
+        diplomaIdField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dialog.add(diplomaIdField);
+
+        // Max Patients Field
+        GIntegerField maxPatientsField = new GIntegerField(10);
+        maxPatientsField.setPlaceholder( "gui.hospital.new_doctor_national_id" );
+        maxPatientsField.setFlexibleSize( 150, 25, 300, 30 );
+        maxPatientsField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        dialog.add(maxPatientsField);
+
+        // Buttons
+        JPanel buttonPanel = new JPanel();
+        JButton saveButton = new JButton(Language.Get("gui.save"));
+        JButton cancelButton = new JButton(Language.Get("gui.cancel"));
+
+        saveButton.addActionListener(e -> {
+            String name = nameField.getText().trim();
+            if (name.isEmpty() || !nationalIdField.isInteger() || nationalIdField.isEmpty() || !diplomaIdField.isInteger() || diplomaIdField.isEmpty() || !maxPatientsField.isInteger() || maxPatientsField.isEmpty() ) {
+                JOptionPane.showOptionDialog(
+                        this,
+                        Language.Get( "gui.hospital.new_doctor_error_fields" ),
+                        Language.Get("gui.error"),
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.ERROR_MESSAGE,
+                        null,
+                        new String[] { Language.Get("gui.ok") },
+                        Language.Get("gui.ok")
+                );
+                return;
+            }
+            Integer nationalId = nationalIdField.getInteger();
+            Integer diplomaId = diplomaIdField.getInteger();
+            Integer maxPatients = maxPatientsField.getInteger();
+            nameField.clear();
+            diplomaIdField.clear();
+            nationalIdField.clear();
+            maxPatientsField.clear();
+
+            // callback.accept(name, nationalId, diplomaId);
+            listener.onDoctorAdded(section, name, nationalId, diplomaId, maxPatients);
+
+            renderDoctors(hospital, section);
+
+            dialog.dispose();
+        });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        buttonPanel.add(saveButton);
+        buttonPanel.add(cancelButton);
+        dialog.add(buttonPanel);
+
+        dialog.setVisible(true);
     }
 
     @Override
