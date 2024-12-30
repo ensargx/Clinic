@@ -6,6 +6,5 @@ public abstract class GTabPanel extends JPanel {
     abstract public String getPanelTitle();
 
     public void reRender() {
-
     }
 }

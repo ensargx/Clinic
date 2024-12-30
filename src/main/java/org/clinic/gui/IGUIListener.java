@@ -2,6 +2,7 @@ package org.clinic.gui;
 
 import org.clinic.Hospital;
 import org.clinic.Section;
+import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
 import java.util.HashMap;

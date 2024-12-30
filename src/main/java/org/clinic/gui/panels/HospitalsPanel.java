@@ -5,9 +5,11 @@ import org.clinic.Section;
 import org.clinic.gui.*;
 import org.clinic.gui.lib.*;
 import org.clinic.lang.Language;
+import org.clinic.person.Doctor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DateFormat;
 import java.util.function.BiConsumer;
 
 public class HospitalsPanel extends GTabPanel {
@@ -17,10 +19,12 @@ public class HospitalsPanel extends GTabPanel {
     private JPanel hospitalsPanel = new JPanel();
     private JPanel sectionsPanel = new JPanel();
     private JPanel doctorsPanel = new JPanel();
+    private JPanel schedulePanel = new JPanel();
 
     private static final String sHospitals = "Hospitals";
     private static final String sSections = "Sections";
     private static final String sDoctors = "Doctors";
+    private static final String sSchedule = "Schedule";
 
     public HospitalsPanel( IGUIListener listener ) {
         this.listener = listener;
@@ -31,6 +35,7 @@ public class HospitalsPanel extends GTabPanel {
         cardPanel.add(hospitalsPanel, sHospitals);
         cardPanel.add(sectionsPanel, sSections);
         cardPanel.add(doctorsPanel, sDoctors);
+        cardPanel.add(schedulePanel, sSchedule);
 
         renderHospitals();
 
@@ -98,8 +103,7 @@ public class HospitalsPanel extends GTabPanel {
         switchTab(HospitalsPanel.sHospitals);
     }
 
-
-    private void renderSections(Hospital hospital ) {
+    private void renderSections(Hospital hospital) {
         sectionsPanel.removeAll();
 
         sectionsPanel.setLayout(new BoxLayout(sectionsPanel, BoxLayout.Y_AXIS));
@@ -194,8 +198,7 @@ public class HospitalsPanel extends GTabPanel {
             GButton schedulesButton = new GButton( "gui.hospital.doctor_schedule" );
             JPanel actionPanel = new JPanel(new FlowLayout());
 
-            schedulesButton.addActionListener(e -> {
-            });
+            schedulesButton.addActionListener( e -> renderSchedule(hospital, section, doctor) );
 
             actionPanel.add(schedulesButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
@@ -207,6 +210,72 @@ public class HospitalsPanel extends GTabPanel {
         doctorsPanel.repaint();
 
         switchTab(HospitalsPanel.sDoctors);
+    }
+
+    private void renderSchedule(Hospital hospital, Section section, Doctor doctor) {
+        schedulePanel.removeAll();
+
+        schedulePanel.setLayout(new BoxLayout(schedulePanel, BoxLayout.Y_AXIS));
+
+        // Back button
+        GButton backButton = new GButton( "gui.back" );
+        backButton.addActionListener(e -> {
+            renderDoctors(hospital, section);
+        });
+        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Create Schedule Button
+        GButton newDoctorButton = new GButton( "gui.hospital.new_schedule" );
+        newDoctorButton.setFlexibleSize(150, 30, 300, 40);
+        newDoctorButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newDoctorButton.addActionListener( e -> GUI.switchToPanel(GUI.PANEL_RENDEZVOUS) );
+
+        // All schedule list
+        GLabel doctorsListPanelLabel = new GLabel( "gui.hospital.all_schedules" );
+        doctorsListPanelLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Info panel for each rendezvous
+        JPanel listRendezvousPanel = new JPanel();
+        listRendezvousPanel.setLayout( new BoxLayout(listRendezvousPanel, BoxLayout.Y_AXIS) );
+        JPanel listRendezvousPanelWrapper= new JPanel( new BorderLayout() );
+        listRendezvousPanelWrapper.add(listRendezvousPanel, BorderLayout.PAGE_START);
+        doctor.getSchedule().getSessions().forEach( rendezvous -> {
+            JPanel taskPanel = new JPanel();
+
+            JPanel infoPanel = new JPanel();
+            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+            infoPanel.setOpaque(false);
+
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT);
+            String date = dateFormat.format(rendezvous.getDate());
+
+            infoPanel.add( new GLabel( "gui.hospital.label_rendezvous_patient_name_format", rendezvous.getPatient().getName() ) );
+            infoPanel.add( new GLabel( "gui.hospital.label_rendezvous_date_format", date ) );
+
+            taskPanel.add(infoPanel, BorderLayout.CENTER);
+
+            // GButton completeButton = new GButton("gui.hospital.hospital_details");
+            // JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            // actionPanel.setOpaque(false);
+
+            // completeButton.addActionListener(e -> renderSections(hospital));
+            // actionPanel.add(completeButton);
+            // taskPanel.add(actionPanel, BorderLayout.EAST);
+
+            taskPanel.setPreferredSize(new Dimension(400, 100));
+            listRendezvousPanel.add(taskPanel);
+
+        } );
+
+        schedulePanel.add(backButton);
+        schedulePanel.add(newDoctorButton);
+        schedulePanel.add(doctorsListPanelLabel);
+        schedulePanel.add(listRendezvousPanelWrapper);
+
+        schedulePanel.revalidate();
+        schedulePanel.repaint();
+
+        switchTab(sSchedule);
     }
 
     private void openDialogStrInt(String labelTitle, String label1, String label2, String errorLabel, BiConsumer<String, Integer> callback ) {
@@ -360,22 +429,6 @@ public class HospitalsPanel extends GTabPanel {
         dialog.add(buttonPanel);
 
         dialog.setVisible(true);
-    }
-
-    private String getHospitalTitleString(String name) {
-        return Language.Get("gui.hospital.label_name") + name;
-    }
-
-    private String getHospitalIDString(Integer id) {
-        return Language.Get("gui.hospital.label_id") + id;
-    }
-
-    private String getSectionNameString( String name ) {
-        return Language.Get("gui.hospital.label_section_name") + name;
-    }
-
-    private String getSectionIDString( Integer id ) {
-        return Language.Get("gui.hospital.label_section_id") + id;
     }
 
     @Override

@@ -28,6 +28,10 @@ public class Schedule implements Serializable {
         return rendezvous;
     }
 
+    public LinkedList<Rendezvous> getSessions() {
+        return sessions;
+    }
+
     // helper method to ensure date is available to create Rendezvous
     private boolean ensureDate(Date date) {
         int rendezvousOnDesired = 0;

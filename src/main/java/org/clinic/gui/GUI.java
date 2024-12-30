@@ -25,7 +25,10 @@ public class GUI {
 
     IGUIListener listener;
 
+    private static GUI mainGui = null;
+
     public GUI( IGUIListener listener ) {
+        GUI.mainGui = this;
         this.listener = listener;
         frame = new JFrame();
         menuBar = createMenuBar();
@@ -138,6 +141,22 @@ public class GUI {
         hospitalsPanel.reRender();
         patientsPanel.reRender();
         rendezvousPanel.reRender();
+    }
+
+    public static final int PANEL_HOSPITAL = 0;
+    public static final int PANEL_PATIENTS = 1;
+    public static final int PANEL_RENDEZVOUS = 2;
+
+    public static void switchToPanel(int panelIdx) {
+        if ( panelIdx < PANEL_HOSPITAL || panelIdx > PANEL_RENDEZVOUS ) {
+            return;
+        }
+
+        if ( mainGui == null ) {
+            return;
+        }
+
+        mainGui.tabbedPane.setSelectedIndex(panelIdx);
     }
 
 }
