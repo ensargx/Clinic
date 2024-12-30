@@ -71,8 +71,8 @@ public class HospitalsPanel extends GTabPanel {
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
             infoPanel.setOpaque(false);
 
-            infoPanel.add(new JLabel("Title: " + hospital.getName()));
-            infoPanel.add(new JLabel("Description: " + id));
+            infoPanel.add( new GLabel( "gui.hospital.label_name", hospital.getName() ) );
+            infoPanel.add( new GLabel( "gui.hospital.label_id", hospital.getId() ) );
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
@@ -130,9 +130,8 @@ public class HospitalsPanel extends GTabPanel {
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-            // TODO: Fix
-            infoPanel.add(new JLabel("NAME: " + section.getName() ));
-            infoPanel.add(new JLabel("ID: " + section.getId() ));
+            infoPanel.add( new GLabel( "gui.hospital.label_section_name", section.getName() ) );
+            infoPanel.add( new GLabel( "gui.hospital.label_section_id", section.getId() ) );
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
@@ -186,10 +185,9 @@ public class HospitalsPanel extends GTabPanel {
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-            // TODO: Fix
-            infoPanel.add(new JLabel("NAME: " + doctor.getName() ));
-            infoPanel.add(new JLabel("Diploma ID: " + doctor.getDiplomaId() ));
-            infoPanel.add(new JLabel("National ID: " + doctor.getNationalId() ));
+            infoPanel.add(new GLabel("gui.hospital.doctor_name_label", doctor.getName() ));
+            infoPanel.add(new GLabel("gui.hospital.doctor_diploma_id_label", doctor.getDiplomaId() ));
+            infoPanel.add(new GLabel("gui.hospital.doctor_national_id_label", doctor.getNationalId() ));
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
@@ -362,6 +360,22 @@ public class HospitalsPanel extends GTabPanel {
         dialog.add(buttonPanel);
 
         dialog.setVisible(true);
+    }
+
+    private String getHospitalTitleString(String name) {
+        return Language.Get("gui.hospital.label_name") + name;
+    }
+
+    private String getHospitalIDString(Integer id) {
+        return Language.Get("gui.hospital.label_id") + id;
+    }
+
+    private String getSectionNameString( String name ) {
+        return Language.Get("gui.hospital.label_section_name") + name;
+    }
+
+    private String getSectionIDString( Integer id ) {
+        return Language.Get("gui.hospital.label_section_id") + id;
     }
 
     @Override
