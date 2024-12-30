@@ -21,6 +21,6 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Name: " + name + "\nID: " + national_id;
+        return "Name: " + name + ", ID: " + national_id;
     }
 }

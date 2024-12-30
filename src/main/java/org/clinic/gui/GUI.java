@@ -72,9 +72,15 @@ public class GUI {
 
         // Create 'File' section for saving/loading
         GMenu fileMenu = new GMenu( "gui.menubar.file" );
-        GMenuItem load = new GMenuItem("gui.menubar.load");
+
+        GMenuItem load = new GMenuItem("gui.menubar.open");
         load.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+            String savedPath = listener.getSavedFilePath();
+            if ( savedPath != null ) {
+                fileChooser.setSelectedFile( new File(savedPath) );
+            }
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Clinic", "clinic");
             fileChooser.setFileFilter(filter);
             if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
@@ -83,13 +89,23 @@ public class GUI {
                 reRender();
             }
         });
+
         GMenuItem save = new GMenuItem( "gui.menubar.save" );
         save.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+            String savedPath = listener.getSavedFilePath();
+            if ( savedPath != null ) {
+                fileChooser.setSelectedFile( new File(savedPath) );
+            }
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Clinic", "clinic");
             fileChooser.setFileFilter(filter);
             if (fileChooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
+                String filePath = file.getPath();
+                if (!filePath.toLowerCase().endsWith(".clinic")) {
+                    file = new File(filePath + ".clinic");
+                }
                 listener.onFileSave(file.getPath());
             }
         });

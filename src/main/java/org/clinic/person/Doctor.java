@@ -34,7 +34,7 @@ public class Doctor extends Person {
 
     @Override
     public String toString() {
-        return "[Doctor]\n" + super.toString();
+        return "[Doctor] " + super.toString();
     }
 
 }

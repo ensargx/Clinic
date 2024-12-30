@@ -19,4 +19,6 @@ public interface IGUIListener {
 
     void onFileLoad(String fullPath);
     void onFileSave(String fullPath);
+    String getSavedFilePath();
+
 }

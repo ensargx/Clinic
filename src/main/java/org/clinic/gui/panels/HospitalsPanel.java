@@ -68,12 +68,14 @@ public class HospitalsPanel extends GTabPanel {
 
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+            // TODO: fix
             infoPanel.add(new JLabel("Title: " + hospital.getName() ));
             infoPanel.add(new JLabel("Description: " + id ));
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
-            JButton completeButton = new JButton("Complete");
+            GButton completeButton = new GButton("gui.hospital.hospital_details");
             JPanel actionPanel = new JPanel(new FlowLayout());
 
             completeButton.addActionListener(e -> {
@@ -123,12 +125,14 @@ public class HospitalsPanel extends GTabPanel {
 
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+            // TODO: Fix
             infoPanel.add(new JLabel("NAME: " + section.getName() ));
             infoPanel.add(new JLabel("ID: " + section.getId() ));
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
-            JButton completeButton = new JButton("Complete");
+            GButton completeButton = new GButton( "gui.hospital.section_details" );
             JPanel actionPanel = new JPanel(new FlowLayout());
 
             completeButton.addActionListener(e -> {
@@ -173,8 +177,28 @@ public class HospitalsPanel extends GTabPanel {
         doctorsPanel.add(doctorsListPanel);
 
         section.getDoctors().forEach(doctor -> {
-           JLabel label = new JLabel( doctor.toString() );
-           doctorsPanel.add(label);
+            JPanel taskPanel = new JPanel();
+
+            JPanel infoPanel = new JPanel();
+            infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+
+            // TODO: Fix
+            infoPanel.add(new JLabel("NAME: " + doctor.getName() ));
+            infoPanel.add(new JLabel("Diploma ID: " + doctor.getDiplomaId() ));
+            infoPanel.add(new JLabel("National ID: " + doctor.getNationalId() ));
+
+            taskPanel.add(infoPanel, BorderLayout.CENTER);
+
+            GButton schedulesButton = new GButton( "gui.hospital.doctor_schedule" );
+            JPanel actionPanel = new JPanel(new FlowLayout());
+
+            schedulesButton.addActionListener(e -> {
+            });
+
+            actionPanel.add(schedulesButton);
+            taskPanel.add(actionPanel, BorderLayout.EAST);
+
+            doctorsPanel.add(taskPanel);
         });
 
         doctorsPanel.revalidate();
@@ -279,14 +303,14 @@ public class HospitalsPanel extends GTabPanel {
 
         // diploma ID Field
         GIntegerField diplomaIdField = new GIntegerField(10);
-        diplomaIdField.setPlaceholder( "gui.hospital.new_doctor_national_id" );
+        diplomaIdField.setPlaceholder( "gui.hospital.new_doctor_diploma_id" );
         diplomaIdField.setFlexibleSize( 150, 25, 300, 30 );
         diplomaIdField.setAlignmentX(Component.CENTER_ALIGNMENT);
         dialog.add(diplomaIdField);
 
         // Max Patients Field
         GIntegerField maxPatientsField = new GIntegerField(10);
-        maxPatientsField.setPlaceholder( "gui.hospital.new_doctor_national_id" );
+        maxPatientsField.setPlaceholder( "gui.hospital.new_doctor_max_patients" );
         maxPatientsField.setFlexibleSize( 150, 25, 300, 30 );
         maxPatientsField.setAlignmentX(Component.CENTER_ALIGNMENT);
         dialog.add(maxPatientsField);

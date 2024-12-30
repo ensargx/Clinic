@@ -72,12 +72,19 @@ public class Main {
 
             @Override
             public void onFileLoad(String fullPath) {
+                savedPath = fullPath;
                 crs.loadTablesFromDisc(fullPath);
             }
 
             @Override
             public void onFileSave(String fullPath) {
+                savedPath = fullPath;
                 crs.saveTablesToDisk(fullPath);
+            }
+
+            @Override
+            public String getSavedFilePath() {
+                return savedPath;
             }
 
         });
