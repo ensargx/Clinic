@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Clinic:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Clinic_jar</output-path>
+    <root id="archive" name="Clinic.jar">
+      <element id="module-output" name="Clinic" />
+    </root>
+  </artifact>
+</component>

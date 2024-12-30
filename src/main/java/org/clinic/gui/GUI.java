@@ -34,6 +34,8 @@ public class GUI {
     public void render( ) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        frame.setTitle( "G Clinic" );
+
         frame.setSize(400, 300);
         frame.setJMenuBar(menuBar);
 

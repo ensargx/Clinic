@@ -6,6 +6,7 @@ import org.clinic.gui.IGUIListener;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class Main {
@@ -13,8 +14,6 @@ public class Main {
     private static String savedPath = null;
 
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-
         CRS crs = new CRS();
 
         GUI gui = new GUI(new IGUIListener() {
@@ -25,7 +24,6 @@ public class Main {
 
             @Override
             public void onHospitalCreated(String name, Integer id) {
-                System.out.println("test name: "+name+" id: "+id);
                 try {
                     crs.createHospital( id ,name );
                 } catch ( DuplicateInfoException err ) {
@@ -40,7 +38,6 @@ public class Main {
 
             @Override
             public void onPatientCreated(String name, Integer nationalId) {
-                System.out.println("[dbg] patient create: name: "+name+" id: "+nationalId);
                 try {
                     crs.createPatient( name, nationalId );
                 } catch ( DuplicateInfoException err ) {
@@ -90,7 +87,5 @@ public class Main {
         });
 
         gui.render( );
-
-        System.out.println("Hello world!");
     }
 }

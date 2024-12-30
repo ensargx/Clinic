@@ -56,12 +56,10 @@ public class HospitalsPanel extends GTabPanel {
         createButton.addActionListener( e -> openAddHospitalDialog() );
 
         // Create Hospital Button
-        hospitalsPanel.add(createButton);
-
         JLabel hospitalListLabel = new GLabel( "gui.hospital.all_hospitals" );
         hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        hospitalsPanel.add(hospitalListLabel);
 
+        JPanel listHospitalsPanel = new JPanel();
         // Info panel for each hospital
         listener.getHospitals().forEach(( id, hospital ) -> {
             JPanel taskPanel = new JPanel();
@@ -85,8 +83,12 @@ public class HospitalsPanel extends GTabPanel {
             actionPanel.add(completeButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
 
-            hospitalsPanel.add(taskPanel);
+            listHospitalsPanel.add(taskPanel);
         });
+
+        hospitalsPanel.add(createButton);
+        hospitalsPanel.add(hospitalListLabel);
+        hospitalsPanel.add(listHospitalsPanel);
 
         hospitalsPanel.revalidate();
         hospitalsPanel.repaint();
