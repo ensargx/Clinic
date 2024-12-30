@@ -59,36 +59,38 @@ public class HospitalsPanel extends GTabPanel {
         JLabel hospitalListLabel = new GLabel( "gui.hospital.all_hospitals" );
         hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JPanel listHospitalsPanel = new JPanel();
         // Info panel for each hospital
-        listener.getHospitals().forEach(( id, hospital ) -> {
+        JPanel listHospitalsPanel = new JPanel();
+        listHospitalsPanel.setLayout( new BoxLayout(listHospitalsPanel, BoxLayout.Y_AXIS) );
+        JPanel listHospitalsPanelWrapper= new JPanel( new BorderLayout() );
+        listHospitalsPanelWrapper.add(listHospitalsPanel, BorderLayout.PAGE_START);
+        listener.getHospitals().forEach((id, hospital) -> {
             JPanel taskPanel = new JPanel();
 
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+            infoPanel.setOpaque(false);
 
-            // TODO: fix
-            infoPanel.add(new JLabel("Title: " + hospital.getName() ));
-            infoPanel.add(new JLabel("Description: " + id ));
+            infoPanel.add(new JLabel("Title: " + hospital.getName()));
+            infoPanel.add(new JLabel("Description: " + id));
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
             GButton completeButton = new GButton("gui.hospital.hospital_details");
-            JPanel actionPanel = new JPanel(new FlowLayout());
+            JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            actionPanel.setOpaque(false);
 
-            completeButton.addActionListener(e -> {
-                renderSections(hospital);
-            });
-
+            completeButton.addActionListener(e -> renderSections(hospital));
             actionPanel.add(completeButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
 
+            taskPanel.setPreferredSize(new Dimension(400, 100));
             listHospitalsPanel.add(taskPanel);
         });
 
         hospitalsPanel.add(createButton);
         hospitalsPanel.add(hospitalListLabel);
-        hospitalsPanel.add(listHospitalsPanel);
+        hospitalsPanel.add(listHospitalsPanelWrapper);
 
         hospitalsPanel.revalidate();
         hospitalsPanel.repaint();
