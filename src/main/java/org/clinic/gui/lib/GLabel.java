@@ -8,6 +8,7 @@ public class GLabel extends JLabel {
     private final String translatable;
     private Object[] args;
     private boolean isFormat = false;
+
     public GLabel( String translatableText ) {
         super();
         this.translatable = translatableText;

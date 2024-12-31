@@ -264,7 +264,6 @@ public class HospitalsPanel extends GTabPanel {
 
             taskPanel.setPreferredSize(new Dimension(400, 100));
             listRendezvousPanel.add(taskPanel);
-
         } );
 
         schedulePanel.add(backButton);

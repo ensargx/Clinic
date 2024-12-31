@@ -9,58 +9,66 @@ import java.awt.*;
 
 public class PatientsPanel extends GTabPanel {
     private IGUIListener listener;
-    private JPanel listPanel;
+    private CardLayout cardLayout;
+    private JPanel cardPanel;
+
+    private JPanel patientsPanel = new JPanel();
+    private static final String sPatients = "Patients";
 
     public PatientsPanel( IGUIListener listener ) {
         this.listener = listener;
 
+        cardLayout = new CardLayout();
+        cardPanel = new JPanel(cardLayout);
+
+        cardPanel.add(patientsPanel, sPatients);
+
+        renderPatients();
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // Create Patient Button
+        this.add(cardPanel, BorderLayout.CENTER);
+    }
+
+    public void renderPatients() {
+        patientsPanel.removeAll();
+
+        patientsPanel.setLayout(new BoxLayout(patientsPanel, BoxLayout.Y_AXIS));
+
+        // New Patient Button
         GButton createButton = new GButton( "gui.patients.create" );
         createButton.setFlexibleSize(150, 30, 300, 40);
         createButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(createButton);
-
-        // Event: create patient
         createButton.addActionListener( e -> openAddPatientDialog() );
 
-        JLabel hospitalListLabel = new GLabel( "gui.patients.all_patients" );
-        hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.add(hospitalListLabel);
-
-        listPanel = new JPanel();
-        listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(listPanel);
-        this.add(scrollPane, BorderLayout.CENTER);
-
-    }
-
-    public void renderHospitals() {
-        listPanel.removeAll();
-
         // Info panel for each patient
-        listener.getPatients().forEach(( id, patient ) -> {
+        JPanel listPatientsPanel = new JPanel();
+        listPatientsPanel.setLayout( new BoxLayout(listPatientsPanel, BoxLayout.Y_AXIS) );
+        JPanel listPatientsPanelWrapper= new JPanel( new BorderLayout() );
+        listPatientsPanelWrapper.add(listPatientsPanel, BorderLayout.PAGE_START);
+        listener.getPatients().forEach( (nationalId, patient) -> {
             JPanel taskPanel = new JPanel();
 
             JPanel infoPanel = new JPanel();
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-            infoPanel.add(new JLabel("Title: " + patient.getName() ));
-            infoPanel.add(new JLabel("Description: " + id ));
+            infoPanel.setOpaque(false);
+
+            infoPanel.add( new GLabel( "gui.patients.label_patient_patient_name_format", patient.getName() ) );
+            infoPanel.add( new GLabel( "gui.patients.label_patient_national_id_format", nationalId ) );
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
 
-            JButton completeButton = new JButton("Complete");
-            JPanel actionPanel = new JPanel(new FlowLayout());
+            taskPanel.setPreferredSize(new Dimension(200, 100));
+            listPatientsPanel.add(taskPanel);
+        } );
 
-            actionPanel.add(completeButton);
-            taskPanel.add(actionPanel, BorderLayout.EAST);
+        patientsPanel.add(createButton);
+        patientsPanel.add(listPatientsPanelWrapper);
 
-            listPanel.add(taskPanel);
-        });
+        patientsPanel.revalidate();
+        patientsPanel.repaint();
 
-        listPanel.revalidate();
-        listPanel.repaint();
+        switchTab(PatientsPanel.sPatients);
     }
 
     private void openAddPatientDialog() {
@@ -107,7 +115,7 @@ public class PatientsPanel extends GTabPanel {
             nameField.clear();
             idField.clear();
             listener.onPatientCreated( name, id );
-            renderHospitals();
+            renderPatients();
 
             dialog.dispose();
         });
@@ -121,8 +129,17 @@ public class PatientsPanel extends GTabPanel {
         dialog.setVisible(true);
     }
 
+    private void switchTab(String paneStr) {
+        cardLayout.show(cardPanel, paneStr);
+    }
+
     @Override
     public String getPanelTitle() {
         return Language.Get( "gui.patients.title" );
+    }
+
+    @Override
+    public void reRender() {
+        renderPatients();
     }
 }

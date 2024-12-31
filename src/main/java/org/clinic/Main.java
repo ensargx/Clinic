@@ -8,6 +8,7 @@ import org.clinic.person.Patient;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Main {
     private static boolean isGui;
@@ -65,6 +66,11 @@ public class Main {
                 } catch (DuplicateInfoException e) {
                     GUI.ErrorMessage(e.getMessage());
                 }
+            }
+
+            @Override
+            public LinkedList<Rendezvous> getRendezvouses() {
+                return crs.getRendezvouses();
             }
 
             @Override

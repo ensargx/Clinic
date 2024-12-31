@@ -79,6 +79,10 @@ public class CRS {
         return hospitals;
     }
 
+    public LinkedList<Rendezvous> getRendezvouses() {
+        return rendezvouses;
+    }
+
     public void saveTablesToDisk(String fullPath) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( fullPath ));

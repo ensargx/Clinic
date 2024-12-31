@@ -39,7 +39,7 @@ public class GUI {
 
         frame.setTitle( "G Clinic" );
 
-        frame.setSize(400, 300);
+        frame.setSize(800, 600);
         frame.setJMenuBar(menuBar);
 
         tabbedPane = new GTabbedPane();
@@ -50,7 +50,7 @@ public class GUI {
         patientsPanel = new PatientsPanel( listener );
         tabbedPane.addTab( patientsPanel.getPanelTitle(), patientsPanel );
 
-        rendezvousPanel = new RendezvousPanel();
+        rendezvousPanel = new RendezvousPanel( listener );
         tabbedPane.addTab( rendezvousPanel.getPanelTitle(), rendezvousPanel );
 
         tabbedPane.setTabPlacement(JTabbedPane.TOP);
