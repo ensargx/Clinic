@@ -18,7 +18,7 @@ public class CRS {
     private LinkedList<Rendezvous> rendezvouses = new LinkedList<>();
     private HashMap<Integer, Hospital> hospitals = new HashMap<>();
 
-    public boolean makeRendezvous(long patientId, int hospitalId, int sectionId, int diplomaId, Date desiredDate) throws IDException {
+    public synchronized boolean makeRendezvous(long patientId, int hospitalId, int sectionId, int diplomaId, Date desiredDate) throws IDException {
         Patient patient = patients.get( patientId );
         if ( patient == null ) {
             throw new IDException("Cannot find patient with given id: " + patientId);
@@ -51,7 +51,7 @@ public class CRS {
         }
     }
 
-    public Hospital createHospital( Integer id, String name ) throws DuplicateInfoException {
+    public synchronized Hospital createHospital( Integer id, String name ) throws DuplicateInfoException {
         if ( hospitals.containsKey( id ) ) {
             throw new DuplicateInfoException("Hospital with given id exists: " + id);
         }
@@ -61,11 +61,11 @@ public class CRS {
         return hospital;
     }
 
-    public HashMap<Long, Patient> getPatients() {
+    public synchronized HashMap<Long, Patient> getPatients() {
         return patients;
     }
 
-    public Patient createPatient(String name, long nationalId ) throws DuplicateInfoException {
+    public synchronized Patient createPatient(String name, long nationalId ) throws DuplicateInfoException {
         if (patients.containsKey( nationalId ) ) {
             throw new DuplicateInfoException("Patient with given nationalId exist: " + nationalId);
         }
@@ -75,15 +75,15 @@ public class CRS {
         return patient;
     }
 
-    public HashMap<Integer, Hospital> getHospitals() {
+    public synchronized HashMap<Integer, Hospital> getHospitals() {
         return hospitals;
     }
 
-    public LinkedList<Rendezvous> getRendezvouses() {
+    public synchronized LinkedList<Rendezvous> getRendezvouses() {
         return rendezvouses;
     }
 
-    public void saveTablesToDisk(String fullPath) {
+    public synchronized void saveTablesToDisk(String fullPath) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( fullPath ));
 
@@ -96,7 +96,7 @@ public class CRS {
         }
     }
 
-    public void loadTablesFromDisc(String fullPath) {
+    public synchronized void loadTablesFromDisc(String fullPath) {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream( fullPath ));
 
