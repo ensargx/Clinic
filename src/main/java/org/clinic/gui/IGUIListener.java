@@ -6,6 +6,7 @@ import org.clinic.Section;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -21,6 +22,7 @@ public interface IGUIListener {
     void onDoctorAdded(Section section, String name, Integer nationalId, Integer diplomaId, Integer maxPatients);
 
     LinkedList<Rendezvous> getRendezvouses();
+    void onRendezvousCreated(Patient patient, Hospital hospital, Section section, Doctor doctor, Date date);
 
     void onFileLoad(String fullPath);
     void onFileSave(String fullPath);

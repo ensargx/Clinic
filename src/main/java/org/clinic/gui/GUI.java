@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 
+// GUI object will be a singleton which will initialized after CRS
 public class GUI {
     JMenuBar menuBar;
     JFrame frame;
@@ -26,6 +27,10 @@ public class GUI {
     IGUIListener listener;
 
     private static GUI mainGui = null;
+
+    public static JFrame getMainFrame() {
+        return mainGui == null ? null : mainGui.frame;
+    }
 
     public GUI( IGUIListener listener ) {
         GUI.mainGui = this;

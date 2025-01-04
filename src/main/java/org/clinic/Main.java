@@ -1,12 +1,14 @@
 package org.clinic;
 
 import org.clinic.exception.DuplicateInfoException;
+import org.clinic.exception.IDException;
 import org.clinic.gui.GUI;
 import org.clinic.gui.IGUIListener;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -71,6 +73,17 @@ public class Main {
             @Override
             public LinkedList<Rendezvous> getRendezvouses() {
                 return crs.getRendezvouses();
+            }
+
+            @Override
+            public void onRendezvousCreated(Patient patient, Hospital hospital, Section section, Doctor doctor, Date date) {
+                try {
+                    if (!crs.makeRendezvous(patient.getNationalId(), hospital.getId(), section.getId(), doctor.getDiplomaId(), date)) {
+                        GUI.ErrorMessage("Cannot create rendezvous, make sure not to exceed doctors daily limit. ");
+                    }
+                } catch (IDException e) {
+                    GUI.ErrorMessage( e.getMessage() );
+                }
             }
 
             @Override

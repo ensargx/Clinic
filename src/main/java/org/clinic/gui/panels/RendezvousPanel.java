@@ -2,6 +2,7 @@ package org.clinic.gui.panels;
 
 import org.clinic.Hospital;
 import org.clinic.Section;
+import org.clinic.gui.GUI;
 import org.clinic.gui.IGUIListener;
 import org.clinic.gui.lib.GButton;
 import org.clinic.gui.lib.GLabel;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 public class RendezvousPanel extends GTabPanel {
@@ -262,10 +264,9 @@ public class RendezvousPanel extends GTabPanel {
 
         SelectorGButtonList<Doctor> doctorSelectorList = new SelectorGButtonList<>( doctor -> {
             System.out.println("[DEBUG]: Selected doctor: " + doctor.getName());
-            if ( doctor != selectedDoctor ) {
-            }
             selectedDoctor = doctor;
             renderNewRendezvous();
+            createNewRendezvousPopup(selectedPatient, selectedHospital, selectedSection, selectedDoctor);
         } );
 
         // add each hospital to the list
@@ -285,6 +286,54 @@ public class RendezvousPanel extends GTabPanel {
         newRendezvousPanel.add(scrollPane);
     }
 
+    // will get the date and call the listener
+    private void createNewRendezvousPopup(Patient patient, Hospital hospital, Section section, Doctor doctor) {
+        // those cannot be null
+        if ( patient == null || hospital == null || section == null || doctor == null ) {
+            // big error, must not happen
+            // just return
+            return;
+        }
+
+        // a lil bit gpt code...
+        JDialog dialog = new JDialog(GUI.getMainFrame(), Language.Get("gui.rendezvous.new_rendezvous"), true);
+        dialog.setSize(300, 150);
+        dialog.setLayout(new FlowLayout());
+
+        // JSpinner select date
+        SpinnerDateModel dateModel = new SpinnerDateModel();
+        JSpinner dateSpinner = new JSpinner(dateModel);
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dateSpinner, "yyyy/MM/dd");
+        dateSpinner.setEditor(dateEditor);
+        dateSpinner.setValue(new Date()); // defaults to today
+
+        GButton okButton = new GButton( "gui.ok" );
+        GButton cancelButton = new GButton("gui.cancel");
+
+        // sanırım bir java saçmalığı, sorgulamayacağım..
+        // Seçilen tarihi saklamak için bir array (lambda uyumluluğu için)
+        final Date[] selectedDate = {null};
+
+        okButton.addActionListener(e -> {
+            Date date = (Date) dateSpinner.getValue();
+            listener.onRendezvousCreated(patient, hospital, section, doctor, date);
+            reRender();
+            dialog.dispose();
+        });
+
+        cancelButton.addActionListener(e -> {
+            dialog.dispose();
+        });
+
+        dialog.add(new GLabel("gui.rendezvous.select_date"));
+        dialog.add(dateSpinner);
+        dialog.add(okButton);
+        dialog.add(cancelButton);
+
+        dialog.setLocationRelativeTo(GUI.getMainFrame());
+        dialog.setVisible(true);
+    }
+
     private void switchTab(String paneStr) {
         cardLayout.show(cardPanel, paneStr);
     }
@@ -296,6 +345,11 @@ public class RendezvousPanel extends GTabPanel {
 
     @Override
     public void reRender() {
+        selectedPatient = null;
+        selectedHospital = null;
+        selectedSection = null;
+        selectedDoctor = null;
 
+        renderRendezvous();
     }
 }
