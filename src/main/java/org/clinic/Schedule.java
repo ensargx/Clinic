@@ -39,7 +39,7 @@ public class Schedule implements Serializable {
         for ( Rendezvous rendezvous : sessions ) {
             if ( isSameDay( rendezvous.getDate(), date ) ) {
                 ++rendezvousOnDesired;
-                if ( rendezvousOnDesired > maxPatientPerDay ) {
+                if ( rendezvousOnDesired >= maxPatientPerDay ) {
                     return false;
                 }
             }

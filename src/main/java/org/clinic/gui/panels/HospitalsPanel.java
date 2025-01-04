@@ -462,7 +462,7 @@ public class HospitalsPanel extends GTabPanel {
             maxPatientsField.clear();
 
             // callback.accept(name, nationalId, diplomaId);
-            listener.onDoctorAdded(section, name, nationalId, diplomaId, maxPatients);
+            listener.onDoctorCreated(section, name, nationalId, diplomaId, maxPatients);
 
             renderDoctors(hospital, section);
 

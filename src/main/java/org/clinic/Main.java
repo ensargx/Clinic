@@ -7,13 +7,11 @@ import org.clinic.gui.IGUIListener;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Main {
-    private static boolean isGui;
     private static String savedPath = null;
 
     public static void main(String[] args) {
@@ -60,7 +58,7 @@ public class Main {
             }
 
             @Override
-            public void onDoctorAdded(Section section, String name, Integer nationalId, Integer diplomaId, Integer maxPatients) {
+            public void onDoctorCreated(Section section, String name, Integer nationalId, Integer diplomaId, Integer maxPatients) {
                 Doctor doctor = new Doctor(name, nationalId, diplomaId, maxPatients);
 
                 try {

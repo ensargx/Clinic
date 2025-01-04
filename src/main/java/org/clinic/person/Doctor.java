@@ -29,7 +29,7 @@ public class Doctor extends Person {
 
         Doctor sec = (Doctor) obj;
 
-        return this.getDiplomaId() == sec.getDiplomaId();
+        return super.equals(obj) || (this.getDiplomaId() == sec.getDiplomaId());
     }
 
     @Override

@@ -92,7 +92,7 @@ public class CRS {
             oos.writeObject(patients);
 
         } catch (Exception e) {
-            // TODO: fix
+            // should not happen
         }
     }
 
@@ -120,7 +120,7 @@ public class CRS {
             this.patients = patients;
 
         } catch ( Exception e ) {
-            // TODO: fix
+            // should not happen
         }
 
     }

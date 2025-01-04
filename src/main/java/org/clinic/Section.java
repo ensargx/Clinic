@@ -17,7 +17,7 @@ public class Section implements Serializable {
     }
 
     public void listDoctors() {
-
+        doctors.forEach(System.out::println);
     }
 
     public int getId() {
