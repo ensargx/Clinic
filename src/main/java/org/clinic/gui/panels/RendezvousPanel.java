@@ -16,7 +16,6 @@ import java.awt.*;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.Callable;
 
 public class RendezvousPanel extends GTabPanel {
     private IGUIListener listener;
@@ -75,21 +74,14 @@ public class RendezvousPanel extends GTabPanel {
             infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
             infoPanel.setOpaque(false);
 
-            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT);
+            // can't change without re-render, but we don't care
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Language.getActiveLocale());
             String date = dateFormat.format( rendezvous.getDate() );
 
             infoPanel.add( new GLabel( "gui.rendezvous.patient_name_format", rendezvous.getPatient().getName() ) );
             infoPanel.add( new GLabel( "gui.rendezvous.label_date_format", date ) );
 
             taskPanel.add(infoPanel, BorderLayout.CENTER);
-
-            // GButton completeButton = new GButton("gui.hospital.hospital_details");
-            // JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            // actionPanel.setOpaque(false);
-
-            // completeButton.addActionListener(e -> renderSections(hospital));
-            // actionPanel.add(completeButton);
-            // taskPanel.add(actionPanel, BorderLayout.EAST);
 
             taskPanel.setPreferredSize(new Dimension(400, 100));
             listRendezvousPanel.add(taskPanel);

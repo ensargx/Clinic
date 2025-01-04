@@ -38,8 +38,10 @@ class SectionTest {
         Doctor testDoctor3 = new Doctor( "TestDoctor3", 2, 1, 1);
         Doctor testDoctor4 = new Doctor( "testDoctor4", 2, 2, 1);
 
-        // Asserts when an equal doctor is present
-        // Test cases for being equal is bellow (testEquals)
+        /**
+         Asserts when an equal doctor is present
+         Test cases for being equal is at {@link org.clinic.person.DoctorTest#testEquals()}
+         */
 
         Assertions.assertDoesNotThrow(
             () -> testSection.addDoctor(testDoctor1)
@@ -61,21 +63,14 @@ class SectionTest {
 
     @Test
     void testEquals() {
-        Doctor testDoctor1 = new Doctor("TestDoctor", 1, 1, 1);
-        Doctor testDoctor2 = new Doctor("TestDoctor", 1, 2, 1);
-        Doctor testDoctor3 = new Doctor("TestDoctor", 2, 1, 1);
-        Doctor testDoctor4 = new Doctor("TestDoctor", 2, 2, 1);
+        Section testSection1 = new Section(1, "TestSection");
+        Section testSection2 = new Section(1, "TestSection");
+        Section testSection3 = new Section(2, "TestSection");
 
-        // Cannot have same national ID
-        Assertions.assertEquals(testDoctor1, testDoctor2);
-        Assertions.assertEquals(testDoctor3, testDoctor4);
+        // Cannot have same ID
+        Assertions.assertEquals(testSection1, testSection2);
 
-        // Cannot have same diploma ID
-        Assertions.assertEquals(testDoctor1, testDoctor3);
-        Assertions.assertEquals(testDoctor2, testDoctor4);
-
-        // Can have same name & maxPatientPerDay
-        Assertions.assertNotEquals(testDoctor1, testDoctor4);
-        Assertions.assertNotEquals(testDoctor2, testDoctor3);
+        // Can have same name
+        Assertions.assertNotEquals(testSection2, testSection3);
     }
 }

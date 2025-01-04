@@ -93,6 +93,7 @@ public class CRS {
 
         } catch (Exception e) {
             // should not happen
+            System.out.println(e.getMessage());
         }
     }
 
@@ -121,6 +122,7 @@ public class CRS {
 
         } catch ( Exception e ) {
             // should not happen
+            System.out.println(e.getMessage());
         }
 
     }

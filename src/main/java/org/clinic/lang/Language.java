@@ -9,6 +9,7 @@ public class Language {
     ));
     private static ResourceBundle activeResource = getDefaultBundle();
     private static ArrayList<Runnable> callbacks = new ArrayList<>();
+    private static Locale activeLocale = Locale.getDefault();
 
     public static String Get( String translatableKey ) {
         try {
@@ -48,13 +49,22 @@ public class Language {
         String country = val.get(1);
 
         activeResource = getBundle( language, country );
+        activeLocale = getLocale( language, country );
 
         LanguageCallback();
     }
 
+    public static Locale getActiveLocale() {
+        return activeLocale;
+    }
+
     private static ResourceBundle getBundle(String lang, String country) {
-        Locale local = Locale.of(lang, country);
+        Locale local = getLocale(lang, country);
         return PropertyResourceBundle.getBundle("lang/localization", local);
+    }
+
+    private static Locale getLocale(String lang, String country) {
+        return Locale.of(lang, country);
     }
 
     private static ResourceBundle getDefaultBundle() {
