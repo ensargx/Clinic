@@ -114,6 +114,11 @@ public class HospitalsPanel extends GTabPanel {
         });
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Hospital Name label
+        GLabel hospitalLabel = new GLabel("gui.hospital.hospital_name_format", hospital.getName());
+        hospitalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hospitalLabel.setPreferredSize( new Dimension( 0, 25 ) );
+
         // Event: create section
         GButton createButton = new GButton( "gui.hospital.create_section" );
         createButton.setFlexibleSize(150, 30, 300, 40);
@@ -123,11 +128,11 @@ public class HospitalsPanel extends GTabPanel {
         JLabel hospitalListLabel = new GLabel( "gui.hospital.all_sections" );
         hospitalListLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        sectionsPanel.add(backButton);
-        sectionsPanel.add(createButton);
-        sectionsPanel.add(hospitalListLabel);
-
         // Info panel for each section
+        JPanel listSectionsPanel = new JPanel();
+        listSectionsPanel.setLayout( new BoxLayout(listSectionsPanel, BoxLayout.Y_AXIS) );
+        JPanel listSectionsPanelWrapper= new JPanel( new BorderLayout() );
+        listSectionsPanelWrapper.add(listSectionsPanel, BorderLayout.PAGE_START);
         hospital.getSections().forEach(section -> {
             JPanel taskPanel = new JPanel();
 
@@ -148,9 +153,16 @@ public class HospitalsPanel extends GTabPanel {
 
             actionPanel.add(completeButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
+            taskPanel.setPreferredSize(new Dimension(400, 100));
 
-            sectionsPanel.add(taskPanel);
+            listSectionsPanel.add(taskPanel);
         });
+
+        sectionsPanel.add(backButton);
+        sectionsPanel.add(hospitalLabel);
+        sectionsPanel.add(createButton);
+        sectionsPanel.add(hospitalListLabel);
+        sectionsPanel.add(listSectionsPanelWrapper);
 
         sectionsPanel.revalidate();
         sectionsPanel.repaint();
@@ -169,6 +181,16 @@ public class HospitalsPanel extends GTabPanel {
         });
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Hospital Name label
+        GLabel hospitalLabel = new GLabel("gui.hospital.hospital_name_format", hospital.getName());
+        hospitalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hospitalLabel.setPreferredSize( new Dimension( 0, 25 ) );
+
+        // Section Name label
+        GLabel sectionLabel = new GLabel("gui.hospital.section_name_format", section.getName());
+        sectionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sectionLabel.setPreferredSize( new Dimension( 0, 25 ) );
+
         // Event: create doctor
         GButton newDoctorButton = new GButton( "gui.hospital.new_doctor" );
         newDoctorButton.setFlexibleSize(150, 30, 300, 40);
@@ -179,10 +201,10 @@ public class HospitalsPanel extends GTabPanel {
         JLabel doctorsListPanel = new GLabel( "gui.hospital.all_doctors" );
         doctorsListPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        doctorsPanel.add(backButton);
-        doctorsPanel.add(newDoctorButton);
-        doctorsPanel.add(doctorsListPanel);
-
+        JPanel listDoctorsPanel = new JPanel();
+        listDoctorsPanel.setLayout( new BoxLayout(listDoctorsPanel, BoxLayout.Y_AXIS) );
+        JPanel listDoctorsPanelWrapper= new JPanel( new BorderLayout() );
+        listDoctorsPanelWrapper.add(listDoctorsPanel, BorderLayout.PAGE_START);
         section.getDoctors().forEach(doctor -> {
             JPanel taskPanel = new JPanel();
 
@@ -202,9 +224,17 @@ public class HospitalsPanel extends GTabPanel {
 
             actionPanel.add(schedulesButton);
             taskPanel.add(actionPanel, BorderLayout.EAST);
+            taskPanel.setPreferredSize(new Dimension(400, 100));
 
-            doctorsPanel.add(taskPanel);
+            listDoctorsPanel.add(taskPanel);
         });
+
+        doctorsPanel.add(backButton);
+        doctorsPanel.add(hospitalLabel);
+        doctorsPanel.add(sectionLabel);
+        doctorsPanel.add(newDoctorButton);
+        doctorsPanel.add(doctorsListPanel);
+        doctorsPanel.add(listDoctorsPanelWrapper);
 
         doctorsPanel.revalidate();
         doctorsPanel.repaint();
@@ -223,6 +253,21 @@ public class HospitalsPanel extends GTabPanel {
             renderDoctors(hospital, section);
         });
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Hospital Name label
+        GLabel hospitalLabel = new GLabel("gui.hospital.hospital_name_format", hospital.getName());
+        hospitalLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hospitalLabel.setPreferredSize( new Dimension( 0, 25 ) );
+
+        // Section Name label
+        GLabel sectionLabel = new GLabel("gui.hospital.section_name_format", section.getName());
+        sectionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        sectionLabel.setPreferredSize( new Dimension( 0, 25 ) );
+
+        // Doctor label
+        GLabel doctorLabel = new GLabel("gui.hospital.doctor_name_format", doctor.getName());
+        doctorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        doctorLabel.setPreferredSize( new Dimension( 0, 25 ) );
 
         // Create Schedule Button
         GButton newDoctorButton = new GButton( "gui.hospital.new_schedule" );
@@ -267,6 +312,9 @@ public class HospitalsPanel extends GTabPanel {
         } );
 
         schedulePanel.add(backButton);
+        schedulePanel.add(hospitalLabel);
+        schedulePanel.add(sectionLabel);
+        schedulePanel.add(doctorLabel);
         schedulePanel.add(newDoctorButton);
         schedulePanel.add(doctorsListPanelLabel);
         schedulePanel.add(listRendezvousPanelWrapper);
