@@ -1,5 +1,6 @@
 package org.clinic.gui.panels;
 
+import org.clinic.gui.lib.GButtonGroup;
 import org.clinic.hospital.Hospital;
 import org.clinic.hospital.Section;
 import org.clinic.gui.GUI;
@@ -96,40 +97,6 @@ public class RendezvousPanel extends GTabPanel {
         switchTab(RendezvousPanel.sRendezvous);
     }
 
-    @FunctionalInterface
-    public interface Callback<T> {
-        void onSelect(T value);
-    }
-
-    static class SelectorGButtonList<T> extends JPanel {
-        private T selected = null;
-        private Callback<T> callback;
-
-        public SelectorGButtonList(Callback<T> callback) {
-            this.callback = callback;
-        }
-
-        public void add(GButton button, T select) {
-            button.addActionListener( e -> onSelect(select) );
-            super.add(button);
-            this.rePaint();
-        }
-
-        public void rePaint() {
-            this.revalidate();
-            this.repaint();
-        }
-
-        private void onSelect(T select) {
-            selected = select;
-            callback.onSelect(select);
-        }
-
-        public T getSelected() {
-            return selected;
-        }
-    }
-
     private void renderNewRendezvous() {
         newRendezvousPanel.removeAll();
         newRendezvousPanel.setLayout(new BoxLayout(newRendezvousPanel, BoxLayout.Y_AXIS));
@@ -157,7 +124,7 @@ public class RendezvousPanel extends GTabPanel {
 
     private void renderPatientsList() {
         // Select a patient (vertical buttons only one is active)
-        SelectorGButtonList<Patient> patientSelectorList = new SelectorGButtonList<>(patient -> {
+        GButtonGroup<Patient> patientSelectorList = new GButtonGroup<>(patient -> {
             // if selected patient is changed, rest should also be changed
             if (patient != selectedPatient) {
                 selectedDoctor = null;
@@ -169,7 +136,7 @@ public class RendezvousPanel extends GTabPanel {
         });
 
         // Add each patient to the list
-        listener.getPatients().forEach((national_id, patient) -> patientSelectorList.add(new GButton(patient.getName()), patient));
+        listener.getPatients().forEach((national_id, patient) -> patientSelectorList.add(new JButton(patient.getName()), patient, selectedPatient == patient));
 
         // Scroll Pane
         JScrollPane scrollPane = createScrollPane(patientSelectorList);
@@ -186,7 +153,7 @@ public class RendezvousPanel extends GTabPanel {
         if ( selectedPatient == null )
             return;
 
-        SelectorGButtonList<Hospital> hospitalSelectorList = new SelectorGButtonList<>( hospital -> {
+        GButtonGroup<Hospital> hospitalSelectorList = new GButtonGroup<>( hospital -> {
             if ( hospital != selectedHospital ) {
                 selectedSection = null;
                 selectedDoctor = null;
@@ -198,7 +165,7 @@ public class RendezvousPanel extends GTabPanel {
         // add each hospital to the list
         listener.getHospitals().forEach( (id, hospital) -> {
             GButton hospitalButton = new GButton( hospital.getName() );
-            hospitalSelectorList.add(hospitalButton, hospital);
+            hospitalSelectorList.add(hospitalButton, hospital, selectedHospital == hospital);
         } );
 
         JScrollPane scrollPane = createScrollPane(hospitalSelectorList);
@@ -215,7 +182,7 @@ public class RendezvousPanel extends GTabPanel {
         if ( selectedHospital == null )
             return;
 
-        SelectorGButtonList<Section> sectionSelectorList = new SelectorGButtonList<>( section -> {
+        GButtonGroup<Section> sectionSelectorList = new GButtonGroup<>( section -> {
             if ( section != selectedSection ) {
                 selectedDoctor = null;
             }
@@ -226,7 +193,7 @@ public class RendezvousPanel extends GTabPanel {
         // add each hospital to the list
         selectedHospital.getSections().forEach( section -> {
             GButton sectionButton = new GButton( section.getName() );
-            sectionSelectorList.add(sectionButton, section);
+            sectionSelectorList.add(sectionButton, section, selectedSection == section);
         } );
 
         JScrollPane scrollPane = createScrollPane(sectionSelectorList);
@@ -243,7 +210,7 @@ public class RendezvousPanel extends GTabPanel {
         if ( selectedSection == null )
             return;
 
-        SelectorGButtonList<Doctor> doctorSelectorList = new SelectorGButtonList<>( doctor -> {
+        GButtonGroup<Doctor> doctorSelectorList = new GButtonGroup<>( doctor -> {
             selectedDoctor = doctor;
             renderNewRendezvous();
             createNewRendezvousPopup(selectedPatient, selectedHospital, selectedSection, selectedDoctor);
@@ -252,7 +219,7 @@ public class RendezvousPanel extends GTabPanel {
         // add each hospital to the list
         selectedSection.getDoctors().forEach( doctor -> {
             GButton sectionButton = new GButton( doctor.getName() );
-            doctorSelectorList.add(sectionButton, doctor);
+            doctorSelectorList.add(sectionButton, doctor, false);
         } );
 
         JScrollPane scrollPane = createScrollPane(doctorSelectorList);
