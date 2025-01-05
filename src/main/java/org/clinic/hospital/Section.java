@@ -1,4 +1,4 @@
-package org.clinic;
+package org.clinic.hospital;
 
 import org.clinic.exception.DuplicateInfoException;
 import org.clinic.person.Doctor;
@@ -40,7 +40,7 @@ public class Section implements Serializable {
 
     public void addDoctor(Doctor doctor) throws DuplicateInfoException {
         if ( doctors.contains( doctor ) ) {
-            throw new DuplicateInfoException("The doctor already exists!");
+            throw new DuplicateInfoException("error.section.doctor_already_exists_format", doctor.getName());
         }
 
         doctors.add(doctor);

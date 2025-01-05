@@ -1,6 +1,6 @@
 package org.clinic.person;
 
-import org.clinic.Schedule;
+import org.clinic.hospital.Schedule;
 
 public class Doctor extends Person {
     private final int diploma_id;

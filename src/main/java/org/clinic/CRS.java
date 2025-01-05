@@ -2,6 +2,10 @@ package org.clinic;
 
 import org.clinic.exception.DuplicateInfoException;
 import org.clinic.exception.IDException;
+import org.clinic.hospital.Hospital;
+import org.clinic.hospital.Rendezvous;
+import org.clinic.hospital.Schedule;
+import org.clinic.hospital.Section;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
@@ -21,22 +25,22 @@ public class CRS {
     public synchronized boolean makeRendezvous(long patientId, int hospitalId, int sectionId, int diplomaId, Date desiredDate) throws IDException {
         Patient patient = patients.get( patientId );
         if ( patient == null ) {
-            throw new IDException("Cannot find patient with given id: " + patientId);
+            throw new IDException("error.crs.cannot_find_patient_id_format", patientId);
         }
 
         Hospital hospital = hospitals.get( hospitalId );
         if ( hospital == null ) {
-            throw new IDException("Cannot find hospital with given id: " + hospitalId);
+            throw new IDException("error.crs.cannot_find_hospital_id_format", hospitalId);
         }
 
         Section section = hospital.getSection( sectionId );
         if ( section == null ) {
-            throw new IDException("Cannot find section with given id: " + sectionId);
+            throw new IDException("error.crs.cannot_find_section_id_format", sectionId);
         }
 
         Doctor doctor = section.getDoctor( diplomaId );
         if ( doctor == null ) {
-            throw new IDException("Cannot find doctor with given id: " + diplomaId);
+            throw new IDException("error.crs.cannot_find_doctor_id_format", diplomaId);
         }
 
         Schedule schedule = doctor.getSchedule();
@@ -53,7 +57,7 @@ public class CRS {
 
     public synchronized Hospital createHospital( Integer id, String name ) throws DuplicateInfoException {
         if ( hospitals.containsKey( id ) ) {
-            throw new DuplicateInfoException("Hospital with given id exists: " + id);
+            throw new DuplicateInfoException("error.crs.given_hospital_id_exists_format", id);
         }
 
         Hospital hospital = new Hospital( id, name );
@@ -67,7 +71,7 @@ public class CRS {
 
     public synchronized Patient createPatient(String name, long nationalId ) throws DuplicateInfoException {
         if (patients.containsKey( nationalId ) ) {
-            throw new DuplicateInfoException("Patient with given nationalId exist: " + nationalId);
+            throw new DuplicateInfoException("error.crs.given_national_id_id_exists_format", nationalId);
         }
 
         Patient patient = new Patient( name, nationalId );

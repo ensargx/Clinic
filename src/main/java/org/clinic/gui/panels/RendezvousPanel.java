@@ -1,7 +1,7 @@
 package org.clinic.gui.panels;
 
-import org.clinic.Hospital;
-import org.clinic.Section;
+import org.clinic.hospital.Hospital;
+import org.clinic.hospital.Section;
 import org.clinic.gui.GUI;
 import org.clinic.gui.IGUIListener;
 import org.clinic.gui.lib.GButton;
@@ -14,7 +14,6 @@ import org.clinic.person.Patient;
 import javax.swing.*;
 import java.awt.*;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class RendezvousPanel extends GTabPanel {
@@ -159,7 +158,6 @@ public class RendezvousPanel extends GTabPanel {
     private void renderPatientsList() {
         // Select a patient (vertical buttons only one is active)
         SelectorGButtonList<Patient> patientSelectorList = new SelectorGButtonList<>(patient -> {
-            System.out.println("[DEBUG]: Selected patient: " + patient.getName());
             // if selected patient is changed, rest should also be changed
             if (patient != selectedPatient) {
                 selectedDoctor = null;
@@ -189,7 +187,6 @@ public class RendezvousPanel extends GTabPanel {
             return;
 
         SelectorGButtonList<Hospital> hospitalSelectorList = new SelectorGButtonList<>( hospital -> {
-            System.out.println("[DEBUG]: Selected hospital: " + hospital.getName());
             if ( hospital != selectedHospital ) {
                 selectedSection = null;
                 selectedDoctor = null;
@@ -219,7 +216,6 @@ public class RendezvousPanel extends GTabPanel {
             return;
 
         SelectorGButtonList<Section> sectionSelectorList = new SelectorGButtonList<>( section -> {
-            System.out.println("[DEBUG]: Selected section: " + section.getName());
             if ( section != selectedSection ) {
                 selectedDoctor = null;
             }
@@ -248,7 +244,6 @@ public class RendezvousPanel extends GTabPanel {
             return;
 
         SelectorGButtonList<Doctor> doctorSelectorList = new SelectorGButtonList<>( doctor -> {
-            System.out.println("[DEBUG]: Selected doctor: " + doctor.getName());
             selectedDoctor = doctor;
             renderNewRendezvous();
             createNewRendezvousPopup(selectedPatient, selectedHospital, selectedSection, selectedDoctor);

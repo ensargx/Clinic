@@ -1,7 +1,7 @@
 package org.clinic.gui.panels;
 
-import org.clinic.Hospital;
-import org.clinic.Section;
+import org.clinic.hospital.Hospital;
+import org.clinic.hospital.Section;
 import org.clinic.gui.*;
 import org.clinic.gui.lib.*;
 import org.clinic.lang.Language;

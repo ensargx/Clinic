@@ -131,7 +131,7 @@ public class GUI {
 
     public static void ErrorMessage( String error ) {
         JOptionPane.showOptionDialog(
-                null,
+                getMainFrame(),
                 error,
                 Language.Get("gui.error"),
                 JOptionPane.DEFAULT_OPTION,

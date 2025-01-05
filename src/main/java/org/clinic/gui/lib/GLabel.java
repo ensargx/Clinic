@@ -1,6 +1,7 @@
 package org.clinic.gui.lib;
 
 import org.clinic.lang.Language;
+import org.clinic.util.Format;
 
 import javax.swing.*;
 
@@ -30,15 +31,8 @@ public class GLabel extends JLabel {
             return Language.Get(text);
         } else {
             String toFormat = Language.Get(text);
-            return format(toFormat, args);
+            return Format.FormatMessage(toFormat, args);
         }
-    }
-
-    private static String format(String template, Object... args) {
-        for (Object arg : args) {
-            template = template.replaceFirst("\\{}", arg.toString());
-        }
-        return template;
     }
 
     private void createCallback() {

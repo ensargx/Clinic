@@ -1,4 +1,4 @@
-package org.clinic;
+package org.clinic.hospital;
 
 import org.clinic.exception.DuplicateInfoException;
 
@@ -38,7 +38,7 @@ public class Hospital implements Serializable {
 
     public void addSection(Section section) throws DuplicateInfoException {
         if ( sections.contains( section ) ) {
-            throw new DuplicateInfoException("The section '" + section.getName() + "' already exists!");
+            throw new DuplicateInfoException( "error.hospital.section_already_exists_format", section.getName());
         }
 
         sections.add( section );

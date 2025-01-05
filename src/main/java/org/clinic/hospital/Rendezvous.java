@@ -1,4 +1,4 @@
-package org.clinic;
+package org.clinic.hospital;
 
 import org.clinic.person.Patient;
 

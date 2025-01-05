@@ -1,6 +1,5 @@
-package org.clinic;
+package org.clinic.hospital;
 
-import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
 import java.io.Serializable;

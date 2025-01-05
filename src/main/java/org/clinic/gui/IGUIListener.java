@@ -1,8 +1,8 @@
 package org.clinic.gui;
 
-import org.clinic.Hospital;
-import org.clinic.Rendezvous;
-import org.clinic.Section;
+import org.clinic.hospital.Hospital;
+import org.clinic.hospital.Rendezvous;
+import org.clinic.hospital.Section;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 

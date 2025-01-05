@@ -4,6 +4,10 @@ import org.clinic.exception.DuplicateInfoException;
 import org.clinic.exception.IDException;
 import org.clinic.gui.GUI;
 import org.clinic.gui.IGUIListener;
+import org.clinic.hospital.Hospital;
+import org.clinic.hospital.Rendezvous;
+import org.clinic.hospital.Section;
+import org.clinic.lang.Language;
 import org.clinic.person.Doctor;
 import org.clinic.person.Patient;
 
@@ -77,7 +81,7 @@ public class Main {
             public void onRendezvousCreated(Patient patient, Hospital hospital, Section section, Doctor doctor, Date date) {
                 try {
                     if (!crs.makeRendezvous(patient.getNationalId(), hospital.getId(), section.getId(), doctor.getDiplomaId(), date)) {
-                        GUI.ErrorMessage("Cannot create rendezvous, make sure not to exceed doctors daily limit. ");
+                        GUI.ErrorMessage(Language.Get("error.rendezvous.ensure_date"));
                     }
                 } catch (IDException e) {
                     GUI.ErrorMessage( e.getMessage() );

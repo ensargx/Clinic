@@ -1,15 +1,23 @@
 package org.clinic.exception;
 
+import org.clinic.lang.Language;
+import org.clinic.util.Format;
+
 public class IDException extends RuntimeException {
-    /**
-     * Constructs a new runtime exception with the specified detail message.
-     * The cause is not initialized, and may subsequently be initialized by a
-     * call to {@link #initCause}.
-     *
-     * @param message the detail message. The detail message is saved for
-     *                later retrieval by the {@link #getMessage()} method.
-     */
-    public IDException(String message) {
-        super(message);
+    private final Object[] formatList;
+    public IDException(String formatMessage, Object ... formatList) {
+        super(formatMessage);
+        this.formatList = formatList;
     }
+
+    @Override
+    public String getMessage() {
+        if ( formatList == null ) {
+            return Language.Get( super.getMessage() );
+        } else {
+            String fmt = Language.Get( super.getMessage() );
+            return Format.FormatMessage(fmt, formatList);
+        }
+    }
+
 }
