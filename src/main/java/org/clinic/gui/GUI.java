@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
+import java.util.Objects;
 
 // GUI object will be a singleton which will initialized after CRS
 public class GUI {
@@ -41,6 +42,14 @@ public class GUI {
 
     public void render( ) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icon.png")));
+        frame.setIconImage(icon.getImage());
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {
+        }
 
         frame.setTitle( "G Clinic" );
 
@@ -84,6 +93,7 @@ public class GUI {
         GMenu fileMenu = new GMenu( "gui.menubar.file" );
 
         GMenuItem load = new GMenuItem("gui.menubar.open");
+        load.setIcon( UIManager.getIcon("FileView.fileIcon") );
         load.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
@@ -101,6 +111,7 @@ public class GUI {
         });
 
         GMenuItem save = new GMenuItem( "gui.menubar.save" );
+        save.setIcon( UIManager.getIcon("FileView.floppyDriveIcon") );
         save.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
