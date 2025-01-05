@@ -103,7 +103,6 @@ public class RendezvousPanel extends GTabPanel {
     }
 
     static class SelectorGButtonList<T> extends JPanel {
-        private ArrayList<GButton> buttons = new ArrayList<>();
         private T selected = null;
         private Callback<T> callback;
 
@@ -113,7 +112,6 @@ public class RendezvousPanel extends GTabPanel {
 
         public void add(GButton button, T select) {
             button.addActionListener( e -> onSelect(select) );
-            buttons.add(button);
             super.add(button);
             this.rePaint();
         }
@@ -140,6 +138,7 @@ public class RendezvousPanel extends GTabPanel {
         // Back button
         GButton backButton = new GButton( "gui.back" );
         backButton.addActionListener(e -> {
+            deselectAll();
             renderRendezvous();
         });
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -175,12 +174,10 @@ public class RendezvousPanel extends GTabPanel {
         listener.getPatients().forEach((national_id, patient) -> patientSelectorList.add(new GButton(patient.getName()), patient));
 
         // Scroll Pane
-        JScrollPane scrollPane = new JScrollPane(patientSelectorList);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        JScrollPane scrollPane = createScrollPane(patientSelectorList);
 
         GLabel label = new GLabel("gui.rendezvous.select_patient");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         newRendezvousPanel.add(label);
         newRendezvousPanel.add(scrollPane);
@@ -207,12 +204,10 @@ public class RendezvousPanel extends GTabPanel {
             hospitalSelectorList.add(hospitalButton, hospital);
         } );
 
-        JScrollPane scrollPane = new JScrollPane(hospitalSelectorList);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        JScrollPane scrollPane = createScrollPane(hospitalSelectorList);
 
         GLabel label = new GLabel("gui.rendezvous.select_hospital");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         newRendezvousPanel.add(label);
         newRendezvousPanel.add(scrollPane);
@@ -238,12 +233,10 @@ public class RendezvousPanel extends GTabPanel {
             sectionSelectorList.add(sectionButton, section);
         } );
 
-        JScrollPane scrollPane = new JScrollPane(sectionSelectorList);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        JScrollPane scrollPane = createScrollPane(sectionSelectorList);
 
         GLabel label = new GLabel("gui.rendezvous.select_section");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         newRendezvousPanel.add(label);
         newRendezvousPanel.add(scrollPane);
@@ -267,12 +260,10 @@ public class RendezvousPanel extends GTabPanel {
             doctorSelectorList.add(sectionButton, doctor);
         } );
 
-        JScrollPane scrollPane = new JScrollPane(doctorSelectorList);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        JScrollPane scrollPane = createScrollPane(doctorSelectorList);
 
         GLabel label = new GLabel("gui.rendezvous.select_doctor");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         newRendezvousPanel.add(label);
         newRendezvousPanel.add(scrollPane);
@@ -302,10 +293,6 @@ public class RendezvousPanel extends GTabPanel {
         GButton okButton = new GButton( "gui.ok" );
         GButton cancelButton = new GButton("gui.cancel");
 
-        // sanırım bir java saçmalığı, sorgulamayacağım..
-        // Seçilen tarihi saklamak için bir array (lambda uyumluluğu için)
-        final Date[] selectedDate = {null};
-
         okButton.addActionListener(e -> {
             Date date = (Date) dateSpinner.getValue();
             listener.onRendezvousCreated(patient, hospital, section, doctor, date);
@@ -326,6 +313,18 @@ public class RendezvousPanel extends GTabPanel {
         dialog.setVisible(true);
     }
 
+    // helper create JScrollPane
+    private static JScrollPane createScrollPane(JPanel panel) {
+        int fixedHeight = 50;
+        JScrollPane scrollPane = new JScrollPane(panel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        scrollPane.setMaximumSize( new Dimension(10000000, fixedHeight) );
+        return scrollPane;
+    }
+
     private void switchTab(String paneStr) {
         cardLayout.show(cardPanel, paneStr);
     }
@@ -335,13 +334,16 @@ public class RendezvousPanel extends GTabPanel {
         return Language.Get("gui.rendezvous.title");
     }
 
-    @Override
-    public void reRender() {
+    private void deselectAll() {
         selectedPatient = null;
         selectedHospital = null;
         selectedSection = null;
         selectedDoctor = null;
+    }
 
+    @Override
+    public void reRender() {
+        deselectAll();
         renderRendezvous();
     }
 }
