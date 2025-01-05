@@ -1,7 +1,6 @@
-package org.clinic;
+package org.clinic.hospital;
 
 import org.clinic.exception.DuplicateInfoException;
-import org.clinic.hospital.Section;
 import org.clinic.person.Doctor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

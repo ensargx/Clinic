@@ -1,6 +1,5 @@
-package org.clinic;
+package org.clinic.hospital;
 
-import org.clinic.hospital.Schedule;
 import org.clinic.person.Patient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
