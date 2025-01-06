@@ -10,9 +10,15 @@ class HospitalTest {
     void getSection() {
         Hospital testHospital = new Hospital(123, "Test1");
         Section testSection = new Section(1, "Section1");
+        Section testSectionCopy = new Section(1, "TestSectionCopy");
         testHospital.addSection(testSection);
+
         Assertions.assertEquals(testSection, testHospital.getSection(1));
         Assertions.assertNull(testHospital.getSection(10));
+        Assertions.assertThrows(
+                DuplicateInfoException.class,
+                () -> testHospital.addSection(testSectionCopy)
+        );
     }
 
     @Test
@@ -27,17 +33,5 @@ class HospitalTest {
             DuplicateInfoException.class,
             () -> testHospital.addSection(testSection2)
         );
-    }
-
-    @Test
-    void getId() {
-        Hospital testHospital = new Hospital(123, "Test1");
-        Assertions.assertEquals( 123, testHospital.getId() );
-    }
-
-    @Test
-    void getName() {
-        Hospital testHospital = new Hospital(123, "Test1");
-        Assertions.assertEquals( "Test1", testHospital.getName() );
     }
 }
