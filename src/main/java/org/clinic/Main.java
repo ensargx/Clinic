@@ -1,5 +1,6 @@
 package org.clinic;
 
+import org.clinic.cli.CLIRenderer;
 import org.clinic.exception.DuplicateInfoException;
 import org.clinic.exception.IDException;
 import org.clinic.gui.GUI;
@@ -19,6 +20,17 @@ public class Main {
     private static String savedPath = null;
 
     public static void main(String[] args) {
+        for (String arg : args) {
+            if ( arg.equals("-no-gui") ) {
+                mainCli();
+                return;
+            }
+        }
+
+        mainGui();
+    }
+
+    private static void mainGui() {
         CRS crs = new CRS();
 
         GUI gui = new GUI(new IGUIListener() {
@@ -109,4 +121,11 @@ public class Main {
 
         gui.render( );
     }
+
+    private static void mainCli() {
+        CRS crs = new CRS();
+        CLIRenderer renderer = new CLIRenderer( crs );
+        renderer.render();
+    }
+
 }
